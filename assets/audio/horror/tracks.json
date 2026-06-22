@@ -1,1 +1,5 @@
-[]
+[
+  { "title": "Horror 1", "file": "Horror-1.mp3" },
+  { "title": "Horror 2", "file": "Horror-2.mp3" },
+  { "title": "Horror 3", "file": "Horror-3.mp3" }
+]
