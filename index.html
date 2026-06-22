@@ -3,12 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>R.TIO.712 Film Composer | Final Portfolio Interface</title>
-  <meta name="description" content="R.TIO.712 Film Composer 영화 음악 포트폴리오. 업로드 스튜디오와 장르별 최신 음악 재생, 트랙 라이브러리 제공." />
-  <meta property="og:title" content="R.TIO.712 Film Composer" />
-  <meta property="og:description" content="Film Score Portfolio" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/images/og-cover.svg" />
+  <title>R.TIO.712 Film Composer | Upload Fixed Stable</title>
+  <meta name="description" content="R.TIO.712 Film Composer 영화음악 포트폴리오. 장르별 최신 업로드 음악과 IndexedDB 기반 안정적 브라우저 업로드 지원." />
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,16 +13,13 @@
     <div class="wrap header-inner">
       <a class="brand" href="#top">
         <img src="assets/images/logo.svg" alt="R.TIO.712 logo" />
-        <div class="brand-copy">
-          <strong>R.TIO.712</strong>
-          <span>Film Composer</span>
-        </div>
+        <div><strong>R.TIO.712</strong><span>Film Composer</span></div>
       </a>
       <nav class="nav">
-        <a href="#upload-studio">Upload Studio</a>
         <a href="#genre-library">Genres</a>
-        <a href="#contact">Contact</a>
+        <a href="#upload-studio">Upload</a>
         <a href="https://www.youtube.com/@RTIO712" target="_blank" rel="noopener">YouTube</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -34,36 +27,50 @@
   <main id="top">
     <section class="hero section-line">
       <div class="wrap hero-grid">
-        <div class="hero-copy align-left">
+        <div class="hero-copy">
           <p class="eyebrow">FILM SCORE PORTFOLIO</p>
           <h1>R.TIO.712 <span>Film Composer</span></h1>
           <p class="subtitle">영화 음악 포트폴리오</p>
-          <p class="lead">
-            장면의 감정과 긴장, 서사의 호흡을 음악으로 설계하는 R.TIO.712의 영화음악 포트폴리오입니다.
-            화이트와 블랙을 중심으로 고급스럽고 시크한 인터페이스로 정리했으며,
-            상단 Upload Studio에서 파일을 추가하고 Genre Library에서 장르별 최신 업로드 곡과 전체 트랙을 확인할 수 있습니다.
-          </p>
+          <p class="lead">장르별 최신 업로드 음악을 먼저 보여주고, 아래 Upload Studio에서 안정적으로 음악 파일을 추가할 수 있는 최종 안정 버전입니다.</p>
           <div class="hero-actions">
-            <a href="#upload-studio" class="btn btn-dark">업로드 스튜디오</a>
-            <a href="#genre-library" class="btn btn-light">장르 카테고리</a>
+            <a class="btn btn-dark" href="#genre-library">장르 카테고리 보기</a>
+            <a class="btn btn-light" href="#upload-studio">음악 업로드</a>
           </div>
         </div>
-        <div class="hero-panel align-center">
+        <div class="hero-panel">
           <div class="hero-panel-box">
-            <p class="eyebrow center">GENRE MAP</p>
-            <h2>8 Genres</h2>
+            <p class="eyebrow center">8 GENRES</p>
+            <h2>50 Tracks<br/>Per Genre</h2>
             <div class="genre-pill-grid">
-              <span>드라마</span>
-              <span>스릴러</span>
-              <span>공포</span>
-              <span>액션</span>
-              <span>로맨스</span>
-              <span>멜로</span>
-              <span>실험적인</span>
-              <span>예고편</span>
+              <span>드라마</span><span>스릴러</span><span>공포</span><span>액션</span>
+              <span>로맨스</span><span>멜로</span><span>실험적인</span><span>예고편</span>
             </div>
-            <p class="panel-note">각 장르별 최대 50개 업로드 가능</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="genre-library" class="section section-line section-white">
+      <div class="wrap">
+        <div class="section-head mixed-head">
+          <div>
+            <p class="eyebrow">GENRE CATEGORY</p>
+            <h2>장르별 최신 업로드 음악</h2>
+          </div>
+          <div class="note-box">
+            <p>각 장르별 카테고리를 먼저 보여줍니다. 카드 안에는 가장 최근에 업로드한 음악이 자동으로 표시되며, 클릭하면 해당 장르의 전체 트랙 목록을 볼 수 있습니다.</p>
+          </div>
+        </div>
+        <div id="genreCards" class="genre-cards"></div>
+        <div class="genre-view-shell">
+          <div class="genre-view-top">
+            <div>
+              <p id="activeGenreLabel" class="active-genre-label">드라마 / Drama</p>
+              <h3 id="activeGenreTitle">장르 트랙 라이브러리</h3>
+            </div>
+            <div class="genre-count-box"><span id="activeGenreCount">0 / 50 Tracks</span></div>
+          </div>
+          <div id="trackList" class="track-list"></div>
         </div>
       </div>
     </section>
@@ -72,73 +79,20 @@
       <div class="wrap">
         <div class="section-head center-head">
           <p class="eyebrow center">UPLOAD STUDIO</p>
-          <h2 class="align-center">장르별 트랙 업로드</h2>
-          <p class="head-sub align-center">
-            장르를 선택하고 트랙 제목과 음악 파일을 추가하면,
-            아래 장르 카테고리에서 가장 최근 업로드된 곡이 자동으로 표시되고 재생할 수 있습니다.
-          </p>
+          <h2>장르별 트랙 업로드</h2>
+          <p class="head-sub">음악 파일은 서버가 아니라 현재 브라우저 내부 저장소에 저장됩니다. GitHub Pages에서도 작동하도록 IndexedDB 방식으로 안정성을 높였습니다.</p>
         </div>
-
-        <div class="upload-card full-width-upload">
+        <div class="upload-card">
           <div class="upload-grid">
-            <div class="field">
-              <label for="genreSelect">Genre</label>
-              <select id="genreSelect"></select>
-            </div>
-            <div class="field">
-              <label for="trackTitle">Track Title</label>
-              <input type="text" id="trackTitle" placeholder="예: Main Theme / Tension Cue / Love Motif" />
-            </div>
-            <div class="field field-wide">
-              <label for="audioFile">Audio File</label>
-              <input type="file" id="audioFile" accept="audio/*" />
-            </div>
+            <div class="field"><label for="genreSelect">Genre</label><select id="genreSelect"></select></div>
+            <div class="field"><label for="trackTitle">Track Title</label><input id="trackTitle" type="text" placeholder="예: Main Theme / Tension Cue" /></div>
+            <div class="field field-wide"><label for="audioFile">Audio File</label><input id="audioFile" type="file" accept="audio/*" /></div>
           </div>
-
           <div class="upload-actions">
-            <div class="upload-note">
-              각 장르는 최대 <strong>50곡</strong>까지 추가할 수 있습니다.
-              파일은 현재 브라우저에 저장되며, 업로드 후 자동으로 해당 장르의 최신 트랙으로 반영됩니다.
-            </div>
-            <div class="button-row">
-              <button id="addTrackBtn" class="btn btn-dark" type="button">파일 업로드 추가</button>
-              <button id="clearAllBtn" class="btn btn-light" type="button">전체 초기화</button>
-            </div>
+            <div class="upload-note">각 장르별 최대 50곡. 업로드 후 위 장르 카테고리의 최신 음악에 자동 반영됩니다.</div>
+            <div class="button-row"><button class="btn btn-dark" id="addTrackBtn" type="button">파일 업로드 추가</button><button class="btn btn-light" id="clearAllBtn" type="button">전체 초기화</button></div>
           </div>
-
           <div id="statusInline" class="status-inline"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="genre-library" class="section section-line section-white">
-      <div class="wrap">
-        <div class="section-head mixed-head">
-          <div class="align-left">
-            <p class="eyebrow">GENRE CATEGORY</p>
-            <h2>장르별 최신 업로드 음악</h2>
-          </div>
-          <div class="align-center head-note-box">
-            <p>
-              각 장르 카드를 클릭하면 해당 장르의 전체 트랙 목록을 볼 수 있습니다.
-              카드 안에는 가장 최근에 업로드된 음악이 자동으로 연결되어 바로 재생할 수 있습니다.
-            </p>
-          </div>
-        </div>
-
-        <div id="genreCards" class="genre-cards"></div>
-
-        <div class="genre-view-shell">
-          <div class="genre-view-top">
-            <div class="align-left">
-              <p id="activeGenreLabel" class="active-genre-label">드라마 / Drama</p>
-              <h3 id="activeGenreTitle">장르 트랙 라이브러리</h3>
-            </div>
-            <div class="align-center genre-count-box">
-              <span id="activeGenreCount">0 / 50 Tracks</span>
-            </div>
-          </div>
-          <div id="bannerList" class="banner-list"></div>
         </div>
       </div>
     </section>
@@ -147,8 +101,7 @@
       <div class="wrap contact-wrap">
         <div class="section-head center-head">
           <p class="eyebrow center">CONTACT</p>
-          <h2 class="align-center">Film / Short Film / Trailer / Brand Film</h2>
-          <p class="head-sub align-center">작업 문의, 데모 요청, 미팅 제안은 아래 연락처로 가능합니다.</p>
+          <h2>Film / Short Film / Trailer / Brand Film</h2>
         </div>
         <div class="contact-card right-contact">
           <div class="contact-row"><span class="label">Email</span><a href="mailto:a0712345@naver.com">a0712345@naver.com</a></div>
@@ -161,14 +114,7 @@
       </div>
     </section>
   </main>
-
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <span>© <span id="year"></span> R.TIO.712 Film Composer</span>
-      <span>Final Black & White Interface</span>
-    </div>
-  </footer>
-
+  <footer class="site-footer"><div class="wrap footer-inner"><span>© <span id="year"></span> R.TIO.712 Film Composer</span><span>Upload Fixed Stable Version</span></div></footer>
   <script src="script.js"></script>
 </body>
 </html>
