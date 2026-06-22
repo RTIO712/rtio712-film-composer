@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
-  <rect width="1200" height="630" fill="#F6F6F4"/>
-  <rect x="40" y="40" width="1120" height="550" rx="28" stroke="#111111" stroke-opacity="0.14"/>
-  <text x="88" y="180" fill="#5E5E5E" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="8">FILM SCORE PORTFOLIO</text>
-  <text x="88" y="302" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="700">R.TIO.712</text>
-  <text x="88" y="388" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="58">Film Composer</text>
-  <text x="88" y="486" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="30">Final Interface · Latest Track Playback · 50 Tracks Per Genre</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><rect width="240" height="240" rx="40" fill="#fff"/><path d="M67 174V66H116C143 66 160 81 160 105C160 127 145 142 121 145L170 174H132L91 147V174H67ZM91 91V125H114C129 125 135 119 135 108C135 97 129 91 114 91H91Z" fill="#111"/></svg>
