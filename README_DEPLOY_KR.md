@@ -1,21 +1,33 @@
-# R.TIO.712 Film Composer Website - Layout Spacing / Visible Delete Version
+# R.TIO.712 GitHub MP3 Auto List 안정 버전
 
-## 반영 내용
-- 인터페이스 테마별 간격을 넓힘
-- 하단에 장르별 업로드 음악 전체 목록 추가
-- 삭제 버튼이 항상 보이도록 수정
-- '다운로드와 삭제 비밀번호는 모두 0712입니다' 안내 문구 삭제
-- 하단 Contact 문구를 왼쪽 박스로 만들고, 오른쪽 이메일/연락처 박스와 높이를 맞춤
-- 다운로드, 삭제, 전체 초기화 비밀번호는 내부적으로 0712 유지
+## 핵심 방식
+웹사이트에서 직접 업로드하지 않습니다. GitHub 저장소에 MP3 파일과 tracks.json 목록을 올리면 웹사이트가 자동으로 장르별 목록을 보여줍니다.
 
-## GitHub 업로드
-ZIP을 그대로 올리지 말고 압축을 풀어서 다음 파일들을 저장소 최상단에 업로드하세요.
-- index.html
-- style.css
-- script.js
-- README_DEPLOY_KR.md
-- assets
+## 장르별 폴더
+- assets/audio/drama
+- assets/audio/thriller
+- assets/audio/horror
+- assets/audio/action
+- assets/audio/romance
+- assets/audio/melo
+- assets/audio/experimental
+- assets/audio/trailer
 
-## 주의
-이 웹사이트의 음악 파일 업로드는 브라우저 IndexedDB에 저장되는 방식입니다.
-GitHub Pages 자체 서버에 MP3가 영구 업로드되는 것은 아닙니다.
+## 각 폴더 안에 필요한 파일
+1. MP3 파일
+2. tracks.json
+
+예: assets/audio/drama/tracks.json
+[
+  { "title": "Main Theme", "file": "main-theme.mp3" },
+  { "title": "Quiet Memory", "file": "quiet-memory.mp3" }
+]
+
+## 중요
+- tracks.json에 적은 파일명과 실제 MP3 파일명이 정확히 같아야 합니다.
+- 장르별 최대 50개까지만 표시됩니다.
+- 다운로드 비밀번호는 0712입니다.
+- 삭제는 웹사이트에서 하는 것이 아니라 GitHub 저장소에서 MP3와 tracks.json 항목을 삭제하면 됩니다.
+
+## GitHub Pages 업로드
+index.html, style.css, script.js, README_DEPLOY_KR.md, assets 폴더를 저장소 최상단에 업로드하세요.
