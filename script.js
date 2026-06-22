@@ -1,200 +1,206 @@
-const genres = [
-  {
-    key: 'drama',
-    number: '01',
-    title: '드라마',
-    subtitle: 'Drama',
-    description: '잔잔한 피아노, 서정적인 스트링, 인물의 감정선을 따라가는 영화 음악.'
-  },
-  {
-    key: 'thriller',
-    number: '02',
-    title: '스릴러',
-    subtitle: 'Thriller',
-    description: '차가운 질감과 반복되는 리듬, 서서히 압박하는 긴장감 중심의 스코어.'
-  },
-  {
-    key: 'horror',
-    number: '03',
-    title: '공포',
-    subtitle: 'Horror',
-    description: '심리적 공기감, 노이즈, 공간감, 긴 침묵과 파열음을 설계하는 공포 음악.'
-  },
-  {
-    key: 'action',
-    number: '04',
-    title: '액션',
-    subtitle: 'Action',
-    description: '하이브리드 오케스트라, 타악기, 베이스 중심의 추진력 있는 사운드.'
-  },
-  {
-    key: 'romance',
-    number: '05',
-    title: '로맨스',
-    subtitle: 'Romance',
-    description: '따뜻한 멜로디, 기타와 피아노, 섬세한 감정의 거리감을 그리는 음악.'
-  },
-  {
-    key: 'melo',
-    number: '06',
-    title: '멜로',
-    subtitle: 'Melo',
-    description: '절제된 여백과 서정성, 감정의 여운을 오래 남기는 장면 중심 스코어.'
-  },
-  {
-    key: 'experimental',
-    number: '07',
-    title: '실험적인',
-    subtitle: 'Experimental',
-    description: '관습적인 형식에서 벗어나 사운드 디자인과 질감 중심으로 설계한 음악.'
-  },
-  {
-    key: 'trailer',
-    number: '08',
-    title: '예고편',
-    subtitle: 'Trailer',
-    description: '빌드업, 드롭, 임팩트, 히트 포인트에 특화된 트레일러 음악.'
-  }
+const genreConfig = [
+  { key: 'drama', title: '드라마', en: 'Drama' },
+  { key: 'thriller', title: '스릴러', en: 'Thriller' },
+  { key: 'horror', title: '공포', en: 'Horror' },
+  { key: 'action', title: '액션', en: 'Action' },
+  { key: 'romance', title: '로맨스', en: 'Romance' },
+  { key: 'melo', title: '멜로', en: 'Melo' },
+  { key: 'experimental', title: '실험적인', en: 'Experimental' },
+  { key: 'trailer', title: '예고편', en: 'Trailer' }
 ];
 
-const genreGrid = document.getElementById('genreGrid');
-const managers = document.getElementById('genreManagers');
-const yearNode = document.getElementById('year');
-if (yearNode) yearNode.textContent = new Date().getFullYear();
+const STORAGE_KEY = 'rtio712_luxe_bw_uploads_v1';
+const MAX_PER_GENRE = 100;
 
-function createGenreSummary(genre){
-  const article = document.createElement('article');
-  article.className = 'genre-summary-card';
-  article.innerHTML = `
-    <div class="topline">
-      <div>
-        <span>${genre.number}</span>
-        <strong>${genre.title}</strong>
-        <div class="subtext">${genre.subtitle}</div>
-      </div>
-      <div class="slot-info">100 Upload Slots</div>
-    </div>
-    <p>${genre.description}</p>
-    <a href="#manager-${genre.key}">업로드 스튜디오 열기 →</a>
-  `;
-  article.querySelector('a').addEventListener('click', (e) => {
-    e.preventDefault();
-    const card = document.getElementById(`manager-${genre.key}`);
-    if (!card.classList.contains('open')) card.classList.add('open');
-    card.scrollIntoView({behavior:'smooth', block:'start'});
-  });
-  return article;
+const genreSelect = document.getElementById('genreSelect');
+const trackTitle = document.getElementById('trackTitle');
+const audioFile = document.getElementById('audioFile');
+const addTrackBtn = document.getElementById('addTrackBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const statusSummary = document.getElementById('statusSummary');
+const genreTabs = document.getElementById('genreTabs');
+const bannerList = document.getElementById('bannerList');
+const activeGenreLabel = document.getElementById('activeGenreLabel');
+const activeGenreTitle = document.getElementById('activeGenreTitle');
+const activeGenreCount = document.getElementById('activeGenreCount');
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
+
+const state = {
+  activeGenre: 'drama',
+  tracks: loadTracks()
+};
+
+function loadTracks(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    const data = JSON.parse(raw);
+    return data && typeof data === 'object' ? data : {};
+  } catch (e) {
+    return {};
+  }
 }
 
-function createSlot(genre, index){
-  const slot = document.createElement('div');
-  slot.className = 'track-slot';
-  const titleId = `${genre.key}-title-${index}`;
-  const fileId = `${genre.key}-file-${index}`;
-  const audioId = `${genre.key}-audio-${index}`;
-  const nameId = `${genre.key}-name-${index}`;
+function saveTracks(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tracks));
+}
 
-  slot.innerHTML = `
-    <div class="track-number">
-      <strong>#${String(index).padStart(2,'0')}</strong>
-      <small>${genre.subtitle}</small>
-    </div>
+function ensureGenreOptions(){
+  genreConfig.forEach(g => {
+    const option = document.createElement('option');
+    option.value = g.key;
+    option.textContent = `${g.title} / ${g.en}`;
+    genreSelect.appendChild(option);
+  });
+}
+
+function getGenreMeta(key){
+  return genreConfig.find(g => g.key === key) || genreConfig[0];
+}
+
+function renderStatus(){
+  statusSummary.innerHTML = '';
+  genreConfig.forEach((genre) => {
+    const count = (state.tracks[genre.key] || []).length;
+    const row = document.createElement('div');
+    row.className = 'status-item';
+    row.innerHTML = `<strong>${genre.title} / ${genre.en}</strong><span>${count} / ${MAX_PER_GENRE}</span>`;
+    statusSummary.appendChild(row);
+  });
+}
+
+function renderGenreTabs(){
+  genreTabs.innerHTML = '';
+  genreConfig.forEach((genre) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `genre-tab${state.activeGenre === genre.key ? ' active' : ''}`;
+    const count = (state.tracks[genre.key] || []).length;
+    btn.innerHTML = `<strong>${genre.title}</strong><span class="sub">${genre.en} · ${count} Files</span>`;
+    btn.addEventListener('click', () => {
+      state.activeGenre = genre.key;
+      renderGenreTabs();
+      renderBannerList();
+    });
+    genreTabs.appendChild(btn);
+  });
+}
+
+function createBanner(track, index){
+  const banner = document.createElement('article');
+  banner.className = 'banner-item';
+  const audioMarkup = track.dataUrl
+    ? `<audio controls preload="none" src="${track.dataUrl}"></audio>`
+    : `<span class="file">오디오 데이터 없음</span>`;
+  banner.innerHTML = `
     <div>
-      <label for="${titleId}">Track Title</label>
-      <input type="text" id="${titleId}" placeholder="예: Main Theme ${index}" />
+      <div class="slot">Track ${String(index + 1).padStart(2,'0')}</div>
+      <div class="title">${escapeHtml(track.title || 'Untitled Track')}</div>
     </div>
-    <div>
-      <label for="${fileId}">Audio Upload</label>
-      <input type="file" id="${fileId}" accept="audio/*" />
-      <small id="${nameId}" style="display:block;margin-top:8px;color:#8d8d8d;word-break:break-all;">선택된 파일 없음</small>
-    </div>
-    <div class="audio-wrap">
-      <label>Preview</label>
-      <audio id="${audioId}" controls preload="none"></audio>
-    </div>
-    <div class="track-action">
-      <button type="button" class="clear-btn">Clear</button>
-    </div>
+    <div class="file">${escapeHtml(track.fileName || 'No file')}</div>
+    <div>${audioMarkup}</div>
+    <div><button class="btn btn-light delete-btn" type="button">삭제</button></div>
   `;
-
-  const fileInput = slot.querySelector(`#${CSS.escape(fileId)}`);
-  const audio = slot.querySelector(`#${CSS.escape(audioId)}`);
-  const fileLabel = slot.querySelector(`#${CSS.escape(nameId)}`);
-  const clearBtn = slot.querySelector('.clear-btn');
-  let objectUrl = null;
-
-  fileInput.addEventListener('change', (event) => {
-    const file = event.target.files && event.target.files[0];
-    if (!file) return;
-    if (objectUrl) URL.revokeObjectURL(objectUrl);
-    objectUrl = URL.createObjectURL(file);
-    audio.src = objectUrl;
-    audio.load();
-    fileLabel.textContent = `선택된 파일: ${file.name}`;
+  banner.querySelector('.delete-btn').addEventListener('click', () => {
+    const list = state.tracks[state.activeGenre] || [];
+    list.splice(index, 1);
+    state.tracks[state.activeGenre] = list;
+    saveTracks();
+    renderAll();
   });
-
-  clearBtn.addEventListener('click', () => {
-    fileInput.value = '';
-    slot.querySelector(`#${CSS.escape(titleId)}`).value = '';
-    audio.pause();
-    audio.removeAttribute('src');
-    audio.load();
-    if (objectUrl) {
-      URL.revokeObjectURL(objectUrl);
-      objectUrl = null;
-    }
-    fileLabel.textContent = '선택된 파일 없음';
-  });
-
-  return slot;
+  return banner;
 }
 
-function createManagerCard(genre){
-  const wrapper = document.createElement('section');
-  wrapper.className = 'manager-card';
-  wrapper.id = `manager-${genre.key}`;
-  wrapper.innerHTML = `
-    <button type="button" class="manager-header" aria-expanded="false">
-      <div class="manager-title-wrap">
-        <strong>${genre.number}. ${genre.title} <small style="font-size:.5em;color:#9d9d9d;font-weight:600;">${genre.subtitle}</small></strong>
-        <span>${genre.description}</span>
-      </div>
-      <div class="manager-meta">
-        <span class="meta-pill">100 TRACKS</span>
-        <span class="meta-pill">BLACK & WHITE UI</span>
-        <span class="arrow">⌄</span>
-      </div>
-    </button>
-    <div class="manager-body">
-      <div class="upload-toolbar">
-        <div class="toolbar-note">${genre.title} 장르 전용 업로드 슬롯 100개입니다. 원하는 만큼 사용하고, 파일은 브라우저에서 바로 미리듣기 할 수 있습니다.</div>
-      </div>
-      <div class="slot-list"></div>
-    </div>
-  `;
-
-  const header = wrapper.querySelector('.manager-header');
-  const body = wrapper.querySelector('.manager-body');
-  const slotList = wrapper.querySelector('.slot-list');
-  let rendered = false;
-
-  header.addEventListener('click', () => {
-    const isOpen = wrapper.classList.toggle('open');
-    header.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen && !rendered) {
-      const frag = document.createDocumentFragment();
-      for (let i = 1; i <= 100; i += 1) {
-        frag.appendChild(createSlot(genre, i));
-      }
-      slotList.appendChild(frag);
-      rendered = true;
-    }
-  });
-
-  return wrapper;
+function renderBannerList(){
+  const meta = getGenreMeta(state.activeGenre);
+  activeGenreLabel.textContent = `${meta.title} / ${meta.en}`;
+  activeGenreTitle.textContent = `${meta.title} 장르 파일 목록`;
+  const list = state.tracks[state.activeGenre] || [];
+  activeGenreCount.textContent = `${list.length} Tracks`;
+  bannerList.innerHTML = '';
+  if (!list.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty-banner';
+    empty.innerHTML = `${meta.title} 장르에는 아직 업로드된 파일이 없습니다.<br />상단 Upload Panel에서 파일을 추가해 주세요.`;
+    bannerList.appendChild(empty);
+    return;
+  }
+  list.forEach((track, index) => bannerList.appendChild(createBanner(track, index)));
 }
 
-genres.forEach((genre) => {
-  genreGrid.appendChild(createGenreSummary(genre));
-  managers.appendChild(createManagerCard(genre));
+function renderAll(){
+  renderStatus();
+  renderGenreTabs();
+  renderBannerList();
+}
+
+function fileToDataURL(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'",'&#39;');
+}
+
+addTrackBtn.addEventListener('click', async () => {
+  const genre = genreSelect.value;
+  const title = trackTitle.value.trim();
+  const file = audioFile.files && audioFile.files[0];
+
+  if (!genre) {
+    alert('장르를 선택해 주세요.');
+    return;
+  }
+  if (!title) {
+    alert('트랙 제목을 입력해 주세요.');
+    return;
+  }
+  if (!file) {
+    alert('오디오 파일을 선택해 주세요.');
+    return;
+  }
+
+  const currentList = state.tracks[genre] || [];
+  if (currentList.length >= MAX_PER_GENRE) {
+    alert('이 장르에는 최대 100개까지만 업로드할 수 있습니다.');
+    return;
+  }
+
+  const dataUrl = await fileToDataURL(file);
+  currentList.push({
+    title,
+    fileName: file.name,
+    type: file.type,
+    dataUrl,
+    createdAt: Date.now()
+  });
+  state.tracks[genre] = currentList;
+  state.activeGenre = genre;
+  saveTracks();
+  trackTitle.value = '';
+  audioFile.value = '';
+  renderAll();
+  document.getElementById('genre-library').scrollIntoView({behavior:'smooth',block:'start'});
 });
+
+clearAllBtn.addEventListener('click', () => {
+  const ok = confirm('정말 전체 업로드 데이터를 모두 초기화하시겠습니까?');
+  if (!ok) return;
+  state.tracks = {};
+  saveTracks();
+  renderAll();
+});
+
+ensureGenreOptions();
+renderAll();

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
-  <rect width="1200" height="630" fill="#050505"/>
-  <rect x="38" y="38" width="1124" height="554" rx="28" stroke="#FFFFFF" stroke-opacity="0.18"/>
-  <text x="88" y="210" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" letter-spacing="9">FILM SCORE PORTFOLIO</text>
-  <text x="88" y="320" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="108" font-weight="700">R.TIO.712</text>
-  <text x="88" y="410" fill="#D5D5D5" font-family="Arial, Helvetica, sans-serif" font-size="62">Film Composer</text>
-  <text x="88" y="510" fill="#9B9B9B" font-family="Arial, Helvetica, sans-serif" font-size="32">Black &amp; White Interface · 8 Genres · 100 Upload Slots Each</text>
+  <rect width="1200" height="630" fill="#F6F6F4"/>
+  <rect x="40" y="40" width="1120" height="550" rx="28" stroke="#111111" stroke-opacity="0.14"/>
+  <text x="88" y="180" fill="#5E5E5E" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="8">FILM SCORE PORTFOLIO</text>
+  <text x="88" y="302" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="106" font-weight="700">R.TIO.712</text>
+  <text x="88" y="388" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="58">Film Composer</text>
+  <text x="88" y="486" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="30">Luxe Black &amp; White Interface · Upload Panel · Genre Banner Library</text>
 </svg>
