@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>R.TIO.712 Film Composer | Final Portfolio Interface</title>
-  <meta name="description" content="R.TIO.712 Film Composer 영화 음악 포트폴리오. 장르별 최신 음악, 업로드 스튜디오, 비밀번호 보호 다운로드와 삭제 기능 제공." />
+  <title>R.TIO.712 Film Composer | Film Score Portfolio</title>
+  <meta name="description" content="R.TIO.712 Film Composer 영화 음악 포트폴리오. 장르별 음악 업로드, 최신 업로드 재생, 다운로드와 삭제 보호 기능 제공." />
   <meta property="og:title" content="R.TIO.712 Film Composer" />
   <meta property="og:description" content="Film Score Portfolio" />
   <meta property="og:type" content="website" />
@@ -15,7 +15,7 @@
 <body>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="#top" aria-label="R.TIO.712 home">
         <img src="assets/images/logo.svg" alt="R.TIO.712 logo" />
         <div class="brand-copy">
           <strong>R.TIO.712</strong>
@@ -24,7 +24,7 @@
       </a>
       <nav class="nav">
         <a href="#genre-library">Genres</a>
-        <a href="#upload-studio">Upload Studio</a>
+        <a href="#upload-studio">Upload</a>
         <a href="https://www.youtube.com/@RTIO712" target="_blank" rel="noopener">YouTube</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -32,7 +32,7 @@
   </header>
 
   <main id="top">
-    <section class="hero section-line">
+    <section class="hero section-line theme-block theme-hero">
       <div class="wrap hero-grid">
         <div class="hero-copy align-left">
           <p class="eyebrow">FILM SCORE PORTFOLIO</p>
@@ -49,14 +49,8 @@
             <p class="eyebrow center">GENRE MAP</p>
             <h2>8 Genres</h2>
             <div class="genre-pill-grid">
-              <span>드라마</span>
-              <span>스릴러</span>
-              <span>공포</span>
-              <span>액션</span>
-              <span>로맨스</span>
-              <span>멜로</span>
-              <span>실험적인</span>
-              <span>예고편</span>
+              <span>드라마</span><span>스릴러</span><span>공포</span><span>액션</span>
+              <span>로맨스</span><span>멜로</span><span>실험적인</span><span>예고편</span>
             </div>
             <p class="panel-note">각 장르별 최대 50개 업로드 가능</p>
           </div>
@@ -64,7 +58,7 @@
       </div>
     </section>
 
-    <section class="intro-section section-line section-white">
+    <section class="intro-section section-line section-white theme-block">
       <div class="wrap">
         <div class="intro-grid">
           <div class="intro-copy intro-en">
@@ -94,7 +88,7 @@
       </div>
     </section>
 
-    <section id="genre-library" class="section section-line section-white">
+    <section id="genre-library" class="section section-line section-white theme-block">
       <div class="wrap">
         <div class="section-head mixed-head">
           <div class="align-left">
@@ -102,33 +96,20 @@
             <h2>장르별 최신 업로드 음악</h2>
           </div>
           <div class="align-center head-note-box">
-            <p>각 장르 카드를 클릭하면 해당 장르의 전체 트랙 목록을 볼 수 있습니다. 카드 안에는 가장 최근에 업로드된 음악이 자동으로 연결됩니다.</p>
+            <p>각 장르 카드를 클릭하면 하단에서 해당 장르의 모든 업로드 음악을 확인할 수 있습니다.</p>
           </div>
         </div>
 
         <div id="genreCards" class="genre-cards long-genre-boxes"></div>
-
-        <div class="genre-view-shell">
-          <div class="genre-view-top">
-            <div class="align-left">
-              <p id="activeGenreLabel" class="active-genre-label">드라마 / Drama</p>
-              <h3 id="activeGenreTitle">장르 트랙 라이브러리</h3>
-            </div>
-            <div class="align-center genre-count-box">
-              <span id="activeGenreCount">0 / 50 Tracks</span>
-            </div>
-          </div>
-          <div id="bannerList" class="banner-list"></div>
-        </div>
       </div>
     </section>
 
-    <section id="upload-studio" class="section section-line">
+    <section id="upload-studio" class="section section-line theme-block">
       <div class="wrap">
         <div class="section-head center-head">
           <p class="eyebrow center">UPLOAD STUDIO</p>
           <h2 class="align-center">장르별 트랙 업로드</h2>
-          <p class="head-sub align-center">장르를 선택하고 트랙 제목과 음악 파일을 추가하면, 위 장르 카테고리에서 최신 업로드 곡이 자동으로 표시됩니다.</p>
+          <p class="head-sub align-center">장르를 선택하고 트랙 제목과 음악 파일을 추가하면, 장르 카테고리와 하단 트랙 목록에 자동 반영됩니다.</p>
         </div>
 
         <div class="upload-card full-width-upload">
@@ -146,30 +127,41 @@
               <input type="file" id="audioFile" accept="audio/*" />
             </div>
           </div>
-
           <div class="upload-actions">
-            <div class="upload-note">각 장르는 최대 <strong>50곡</strong>까지 추가할 수 있습니다. 다운로드와 삭제 비밀번호는 모두 <strong>0712</strong>입니다.</div>
+            <div class="upload-note">각 장르는 최대 <strong>50곡</strong>까지 추가할 수 있습니다.</div>
             <div class="button-row">
               <button id="addTrackBtn" class="btn btn-dark" type="button">파일 업로드 추가</button>
               <button id="clearAllBtn" class="btn btn-light" type="button">전체 초기화</button>
             </div>
           </div>
-
           <div id="statusInline" class="status-inline"></div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section section-line">
-      <div class="wrap contact-wrap">
-        <div class="section-head center-head">
-          <p class="eyebrow center">CONTACT</p>
-          <h2 class="align-center">R.TIO.712</h2>
-          <p class="head-sub align-center contact-statement">
-            Film Composer | Singer-Songwriter | Producer<br>
-            China · Korea<br>
-            Available for Films, TV Series, Documentaries, Commercials, and Independent Projects.
-          </p>
+    <section id="all-tracks" class="section section-line section-white theme-block">
+      <div class="wrap">
+        <div class="section-head mixed-head">
+          <div class="align-left">
+            <p class="eyebrow">ALL UPLOADED TRACKS</p>
+            <h2>장르별 업로드 음악 전체 목록</h2>
+          </div>
+          <div class="align-center head-note-box">
+            <p>하단에서 장르별 업로드 음악을 모두 볼 수 있습니다. 삭제 버튼은 항상 보이도록 조정했습니다.</p>
+          </div>
+        </div>
+        <div id="allGenreLists" class="all-genre-lists"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-line theme-block">
+      <div class="wrap contact-grid">
+        <div class="contact-intro-box">
+          <p class="eyebrow">CONTACT</p>
+          <h2>R.TIO.712</h2>
+          <p>Film Composer | Singer-Songwriter | Producer</p>
+          <p>China · Korea</p>
+          <p>Available for Films, TV Series, Documentaries, Commercials, and Independent Projects.</p>
         </div>
         <div class="contact-card right-contact">
           <div class="contact-row"><span class="label">Email</span><a href="mailto:a0712345@naver.com">a0712345@naver.com</a></div>
@@ -186,7 +178,7 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <span>© <span id="year"></span> R.TIO.712 Film Composer</span>
-      <span>Protected Download/Delete Password: 0712</span>
+      <span>Film Score Portfolio</span>
     </div>
   </footer>
 

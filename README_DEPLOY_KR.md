@@ -1,42 +1,21 @@
-# R.TIO.712 Film Composer Website - Final Stable Intro Text Version
+# R.TIO.712 Film Composer Website - Layout Spacing / Visible Delete Version
 
-## 이번 수정 내용
-- 상단 소개 문구를 영문/한글 아티스트 소개문으로 교체했습니다.
-- 영문 소개와 한글 소개 사이에 다음 문구를 추가했습니다.
-  - Music for Stories. Music for Emotions.
-  - 이야기를 위한 음악, 감정을 위한 음악.
-- 하단 Contact 섹션에 다음 문구를 추가했습니다.
-  - R.TIO.712
-  - Film Composer | Singer-Songwriter | Producer
-  - China · Korea
-  - Available for Films, TV Series, Documentaries, Commercials, and Independent Projects.
-- 기존 기능과 디자인은 유지했습니다.
-- 장르별 최신 업로드 음악 표시, IndexedDB 업로드 방식, YouTube 링크, Contact 정보는 유지했습니다.
+## 반영 내용
+- 인터페이스 테마별 간격을 넓힘
+- 하단에 장르별 업로드 음악 전체 목록 추가
+- 삭제 버튼이 항상 보이도록 수정
+- '다운로드와 삭제 비밀번호는 모두 0712입니다' 안내 문구 삭제
+- 하단 Contact 문구를 왼쪽 박스로 만들고, 오른쪽 이메일/연락처 박스와 높이를 맞춤
+- 다운로드, 삭제, 전체 초기화 비밀번호는 내부적으로 0712 유지
 
-## 파일 구성
+## GitHub 업로드
+ZIP을 그대로 올리지 말고 압축을 풀어서 다음 파일들을 저장소 최상단에 업로드하세요.
 - index.html
 - style.css
 - script.js
 - README_DEPLOY_KR.md
-- assets/images/logo.svg
-- assets/images/favicon.svg
-- assets/audio/
-
-## GitHub Pages 업로드 방법
-1. ZIP 압축을 풉니다.
-2. GitHub 저장소에 들어갑니다.
-3. 기존 index.html, style.css, script.js, README_DEPLOY_KR.md, assets 파일을 교체합니다.
-4. Commit changes를 누릅니다.
-5. 1~5분 후 GitHub Pages 주소를 새로고침합니다.
+- assets
 
 ## 주의
-GitHub에는 ZIP 파일 자체를 올리지 말고, 압축을 푼 폴더 안의 파일들을 올려야 합니다.
-
-
-## 2026-06-22 Password Protected Version
-- 소개문 레이아웃: 왼쪽 영어 / 오른쪽 한글
-- 중간 슬로건: Music for Stories. Music for Emotions. / 이야기를 위한 음악, 감정을 위한 음악.
-- 8개 장르 박스: 좌우로 긴 박스형 레이아웃
-- 다운로드 비밀번호: 0712
-- 삭제 비밀번호: 0712
-- 전체 초기화 비밀번호: 0712
+이 웹사이트의 음악 파일 업로드는 브라우저 IndexedDB에 저장되는 방식입니다.
+GitHub Pages 자체 서버에 MP3가 영구 업로드되는 것은 아닙니다.
