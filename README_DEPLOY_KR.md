@@ -1,71 +1,57 @@
-# R.TIO.712 Film Composer 웹사이트 업로드 방법
+# R.TIO.712 Film Composer Website - Server Ready
 
-이 폴더는 서버에 그대로 업로드 가능한 정적 웹사이트입니다.
+이 폴더는 서버에 바로 업로드 가능한 정적 웹사이트입니다.
 
-## 폴더 구조
+## 업로드할 파일
+
+서버 또는 GitHub 저장소의 가장 바깥 위치에 아래 파일들이 있어야 합니다.
 
 ```text
 index.html
 style.css
 script.js
-assets/
-  images/
-    logo.svg
-    favicon.svg
-    og-cover.svg
-  audio/
-    여기에 mp3 파일 추가
+assets/images/logo.svg
+assets/images/favicon.svg
+assets/images/og-cover.svg
+assets/audio/
 ```
 
-## 일반 웹호스팅에 업로드
+## 음악 파일 업로드 방법
 
-1. 호스팅 관리자 페이지에 접속합니다.
-2. `public_html`, `www`, `htdocs` 같은 웹 루트 폴더를 엽니다.
-3. 이 폴더 안의 파일 전체를 업로드합니다.
-4. 반드시 `index.html`이 웹 루트 바로 아래에 있어야 합니다.
-
-올바른 구조:
+각 장르별 MP3 파일을 아래 이름으로 저장해서 `assets/audio` 폴더에 넣어 주세요.
 
 ```text
-public_html/index.html
-public_html/style.css
-public_html/script.js
-public_html/assets/images/logo.svg
+assets/audio/drama.mp3
+assets/audio/thriller.mp3
+assets/audio/horror.mp3
+assets/audio/action.mp3
+assets/audio/romance.mp3
+assets/audio/melo.mp3
+assets/audio/experimental.mp3
+assets/audio/trailer.mp3
 ```
 
-잘못된 구조:
+그 후 GitHub에 다시 업로드하면 사이트에서 각 장르별 오디오 플레이어가 재생됩니다.
 
-```text
-public_html/RTIO712_Film_Composer_Website/index.html
-```
+## 브라우저에서 음악 파일 선택 기능
 
-## Alibaba OSS / Tencent COS / S3 같은 Object Storage
+사이트 화면에서 각 장르 카드의 `음악 파일 선택 / Upload Audio` 버튼을 누르면, 내 컴퓨터의 MP3 파일을 임시로 미리듣기 할 수 있습니다.
 
-1. 버킷을 만듭니다.
-2. 정적 웹사이트 호스팅을 켭니다.
-3. 기본 문서를 `index.html`로 설정합니다.
-4. 이 폴더 안의 파일 전체를 업로드합니다.
-5. 권한은 Public Read만 사용합니다.
+주의: 이 기능은 방문자의 브라우저에서만 임시로 재생됩니다. 모든 방문자에게 고정으로 들리게 하려면 MP3 파일을 `assets/audio` 폴더에 직접 업로드해야 합니다.
 
-## 음악 파일 교체
+## Contact 정보
 
-`assets/audio/` 폴더에 mp3 파일을 넣고 `index.html`에서 아래 부분을 수정하세요.
+- Email: a0712345@naver.com
+- China: +86 135 6014 4677
+- Korea: +82 10 5146 7712
+- WeChat: pstefan712
+- Kakao: 712pstefan
 
-```html
-<source src="assets/audio/drama-demo.mp3" type="audio/mpeg" />
-```
+## GitHub Pages 배포
 
-예:
+1. GitHub 저장소에 위 파일들을 업로드합니다.
+2. `Settings -> Pages`로 이동합니다.
+3. `Source: Deploy from a branch`를 선택합니다.
+4. `Branch: main`, `Folder: / root`를 선택합니다.
+5. Save 후 1~5분 기다립니다.
 
-```html
-<source src="assets/audio/my-film-score.mp3" type="audio/mpeg" />
-```
-
-## 연락처 수정
-
-`index.html`에서 아래 부분을 실제 연락처로 바꾸세요.
-
-```html
-<a href="mailto:contact@example.com">contact@example.com</a>
-<span>WeChat / KakaoTalk / Instagram ID</span>
-```

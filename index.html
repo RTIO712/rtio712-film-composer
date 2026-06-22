@@ -58,85 +58,135 @@
       <div class="section-title">
         <p class="eyebrow">CATEGORY / GENRE</p>
         <h2>장르별 포트폴리오</h2>
-        <p>각 장르 카드는 실제 음악, 영상, SoundCloud, YouTube 링크로 쉽게 교체할 수 있습니다.</p>
+        <p>각 장르별로 음악 파일을 선택해 미리듣기 할 수 있고, 서버 업로드용 MP3 파일명도 함께 안내합니다.</p>
       </div>
       <div class="genre-grid">
-        <article class="genre-card" data-genre="Drama">
+        <article class="genre-card" data-genre="Drama" data-audio="assets/audio/drama.mp3">
           <span>01</span>
           <h3>드라마</h3>
           <p>잔잔한 피아노, 낮은 스트링, 인물의 내면을 따라가는 감정 중심 스코어.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-drama">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-drama" class="audio-upload" type="file" accept="audio/*" data-target="audio-drama" data-label="label-drama" />
+            <small id="label-drama">서버 파일명: assets/audio/drama.mp3</small>
+          </div>
+          <audio id="audio-drama" controls preload="none">
+            <source src="assets/audio/drama.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Thriller">
+        <article class="genre-card" data-genre="Thriller" data-audio="assets/audio/thriller.mp3">
           <span>02</span>
           <h3>스릴러</h3>
           <p>반복되는 펄스, 차가운 신스, 불안한 리듬으로 긴장감을 쌓는 음악.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-thriller">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-thriller" class="audio-upload" type="file" accept="audio/*" data-target="audio-thriller" data-label="label-thriller" />
+            <small id="label-thriller">서버 파일명: assets/audio/thriller.mp3</small>
+          </div>
+          <audio id="audio-thriller" controls preload="none">
+            <source src="assets/audio/thriller.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Horror">
+        <article class="genre-card" data-genre="Horror" data-audio="assets/audio/horror.mp3">
           <span>03</span>
           <h3>공포</h3>
           <p>공간감, 노이즈, 숨소리 같은 질감을 활용한 심리적 공포 사운드.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-horror">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-horror" class="audio-upload" type="file" accept="audio/*" data-target="audio-horror" data-label="label-horror" />
+            <small id="label-horror">서버 파일명: assets/audio/horror.mp3</small>
+          </div>
+          <audio id="audio-horror" controls preload="none">
+            <source src="assets/audio/horror.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Action">
+        <article class="genre-card" data-genre="Action" data-audio="assets/audio/action.mp3">
           <span>04</span>
           <h3>액션</h3>
           <p>타악기, 베이스, 브라스, 하이브리드 오케스트라로 만드는 추진력.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-action">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-action" class="audio-upload" type="file" accept="audio/*" data-target="audio-action" data-label="label-action" />
+            <small id="label-action">서버 파일명: assets/audio/action.mp3</small>
+          </div>
+          <audio id="audio-action" controls preload="none">
+            <source src="assets/audio/action.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Romance">
+        <article class="genre-card" data-genre="Romance" data-audio="assets/audio/romance.mp3">
           <span>05</span>
           <h3>로맨스</h3>
           <p>따뜻한 기타, 피아노, 섬세한 패드로 설계하는 사랑의 거리감.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-romance">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-romance" class="audio-upload" type="file" accept="audio/*" data-target="audio-romance" data-label="label-romance" />
+            <small id="label-romance">서버 파일명: assets/audio/romance.mp3</small>
+          </div>
+          <audio id="audio-romance" controls preload="none">
+            <source src="assets/audio/romance.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Melo">
+        <article class="genre-card" data-genre="Melo" data-audio="assets/audio/melo.mp3">
           <span>06</span>
           <h3>멜로</h3>
           <p>절제된 멜로디와 여백으로 감정을 깊게 남기는 서정적 스코어.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-melo">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-melo" class="audio-upload" type="file" accept="audio/*" data-target="audio-melo" data-label="label-melo" />
+            <small id="label-melo">서버 파일명: assets/audio/melo.mp3</small>
+          </div>
+          <audio id="audio-melo" controls preload="none">
+            <source src="assets/audio/melo.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Experimental">
+        <article class="genre-card" data-genre="Experimental" data-audio="assets/audio/experimental.mp3">
           <span>07</span>
           <h3>실험적인</h3>
           <p>전통적 화성에서 벗어나 이미지와 감각을 먼저 설계하는 사운드 디자인.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-experimental">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-experimental" class="audio-upload" type="file" accept="audio/*" data-target="audio-experimental" data-label="label-experimental" />
+            <small id="label-experimental">서버 파일명: assets/audio/experimental.mp3</small>
+          </div>
+          <audio id="audio-experimental" controls preload="none">
+            <source src="assets/audio/experimental.mp3" type="audio/mpeg" />
+          </audio>
         </article>
-        <article class="genre-card" data-genre="Trailer">
+        <article class="genre-card" data-genre="Trailer" data-audio="assets/audio/trailer.mp3">
           <span>08</span>
           <h3>예고편</h3>
           <p>빌드업, 드롭, 히트, 리저를 활용한 영화 예고편용 임팩트 음악.</p>
-          <a href="#demo">Demo Slot</a>
+          <div class="upload-box">
+            <label for="upload-trailer">음악 파일 선택 / Upload Audio</label>
+            <input id="upload-trailer" class="audio-upload" type="file" accept="audio/*" data-target="audio-trailer" data-label="label-trailer" />
+            <small id="label-trailer">서버 파일명: assets/audio/trailer.mp3</small>
+          </div>
+          <audio id="audio-trailer" controls preload="none">
+            <source src="assets/audio/trailer.mp3" type="audio/mpeg" />
+          </audio>
         </article>
       </div>
     </section>
 
     <section id="demo" class="section demo-section">
       <div class="section-title">
-        <p class="eyebrow">DEMO REEL</p>
-        <h2>음악 데모 영역</h2>
-        <p>아래 영역은 실제 MP3 파일이나 YouTube/SoundCloud 링크로 교체해서 사용할 수 있습니다.</p>
+        <p class="eyebrow">AUDIO UPLOAD GUIDE</p>
+        <h2>장르별 음악 업로드 안내</h2>
+        <p>브라우저에서 파일 선택을 하면 바로 미리듣기가 가능합니다. 실제 웹사이트에 고정하려면 아래 파일명으로 MP3를 assets/audio 폴더에 넣고 서버에 다시 업로드하세요.</p>
       </div>
-      <div class="demo-list">
-        <div class="demo-item">
-          <div>
-            <strong>Drama Score Demo</strong>
-            <small>Replace with audio file: assets/audio/drama-demo.mp3</small>
-          </div>
-          <audio controls preload="none">
-            <source src="assets/audio/drama-demo.mp3" type="audio/mpeg" />
-          </audio>
-        </div>
-        <div class="demo-item">
-          <div>
-            <strong>Thriller / Trailer Cue</strong>
-            <small>Replace with audio file: assets/audio/trailer-demo.mp3</small>
-          </div>
-          <audio controls preload="none">
-            <source src="assets/audio/trailer-demo.mp3" type="audio/mpeg" />
-          </audio>
-        </div>
+      <div class="upload-guide-grid">
+        <div><strong>드라마</strong><small>assets/audio/drama.mp3</small></div>
+        <div><strong>스릴러</strong><small>assets/audio/thriller.mp3</small></div>
+        <div><strong>공포</strong><small>assets/audio/horror.mp3</small></div>
+        <div><strong>액션</strong><small>assets/audio/action.mp3</small></div>
+        <div><strong>로맨스</strong><small>assets/audio/romance.mp3</small></div>
+        <div><strong>멜로</strong><small>assets/audio/melo.mp3</small></div>
+        <div><strong>실험적인</strong><small>assets/audio/experimental.mp3</small></div>
+        <div><strong>예고편</strong><small>assets/audio/trailer.mp3</small></div>
+      </div>
+      <div class="note-card">
+        <strong>중요</strong>
+        <p>웹사이트 방문자가 파일 선택 버튼으로 고른 음악은 그 사람의 브라우저에서만 임시 재생됩니다. 모든 방문자에게 음악이 보이게 하려면 MP3 파일을 위 파일명으로 저장한 뒤 서버/GitHub 저장소의 assets/audio 폴더에 업로드해야 합니다.</p>
       </div>
     </section>
 
@@ -163,11 +213,14 @@
       <div>
         <p class="eyebrow">CONTACT</p>
         <h2>Film, Short Film, Trailer, Brand Film</h2>
-        <p>작업 문의, 데모 요청, 미팅 제안은 아래 연락처 영역을 실제 정보로 교체해서 사용하세요.</p>
+        <p>영화 음악 작업, 데모 요청, 미팅 제안은 아래 연락처로 문의해 주세요.</p>
       </div>
       <div class="contact-card">
-        <a href="mailto:contact@example.com">contact@example.com</a>
-        <span>WeChat / KakaoTalk / Instagram ID</span>
+        <a href="mailto:a0712345@naver.com">a0712345@naver.com</a>
+        <span>China: <a href="tel:+8613560144677">+86 135 6014 4677</a></span>
+        <span>Korea: <a href="tel:+821051467712">+82 10 5146 7712</a></span>
+        <span>WeChat: <strong>pstefan712</strong></span>
+        <span>Kakao: <strong>712pstefan</strong></span>
         <span>Guangzhou, China · Available for Korea meetings</span>
       </div>
     </section>
