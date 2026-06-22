@@ -1,22 +1,33 @@
-# R.TIO.712 Upload Fixed Stable 20260622
+# R.TIO.712 Film Composer Website - Final Stable Intro Text Version
 
-## 반영 내용
-- 파일 업로드 안정성 개선: IndexedDB 방식 사용
-- 장르별 최신 업로드 음악을 업로드 스튜디오 위에 배치
-- 장르별 카테고리 표시 강화
-- 각 장르별 최대 50곡
-- YouTube 링크 추가: https://www.youtube.com/@RTIO712
+## 이번 수정 내용
+- 상단 소개 문구를 영문/한글 아티스트 소개문으로 교체했습니다.
+- 영문 소개와 한글 소개 사이에 다음 문구를 추가했습니다.
+  - Music for Stories. Music for Emotions.
+  - 이야기를 위한 음악, 감정을 위한 음악.
+- 하단 Contact 섹션에 다음 문구를 추가했습니다.
+  - R.TIO.712
+  - Film Composer | Singer-Songwriter | Producer
+  - China · Korea
+  - Available for Films, TV Series, Documentaries, Commercials, and Independent Projects.
+- 기존 기능과 디자인은 유지했습니다.
+- 장르별 최신 업로드 음악 표시, IndexedDB 업로드 방식, YouTube 링크, Contact 정보는 유지했습니다.
 
-## 중요 안내
-GitHub Pages는 정적 웹사이트라서 방문자가 올린 파일을 서버에 저장할 수 없습니다.
-이 버전은 브라우저 내부 저장소에 음악 파일을 저장합니다.
-같은 기기/같은 브라우저에서는 다시 열어도 유지됩니다.
-다른 기기에서는 자동 공유되지 않습니다.
-
-## 업로드 방법
-ZIP 파일을 올리지 말고 압축을 푼 뒤 아래 파일들을 GitHub 저장소 루트에 업로드하세요.
+## 파일 구성
 - index.html
 - style.css
 - script.js
 - README_DEPLOY_KR.md
-- assets 폴더
+- assets/images/logo.svg
+- assets/images/favicon.svg
+- assets/audio/
+
+## GitHub Pages 업로드 방법
+1. ZIP 압축을 풉니다.
+2. GitHub 저장소에 들어갑니다.
+3. 기존 index.html, style.css, script.js, README_DEPLOY_KR.md, assets 파일을 교체합니다.
+4. Commit changes를 누릅니다.
+5. 1~5분 후 GitHub Pages 주소를 새로고침합니다.
+
+## 주의
+GitHub에는 ZIP 파일 자체를 올리지 말고, 압축을 푼 폴더 안의 파일들을 올려야 합니다.
