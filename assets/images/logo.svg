@@ -1,7 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4d38b"/><stop offset="1" stop-color="#7e1f1f"/></linearGradient></defs>
-  <rect width="160" height="160" rx="34" fill="#050506"/>
-  <rect x="10" y="10" width="140" height="140" rx="28" fill="none" stroke="url(#g)" stroke-width="3"/>
-  <text x="80" y="92" text-anchor="middle" font-family="Georgia, serif" font-size="66" font-weight="700" fill="url(#g)">R</text>
-  <text x="80" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#f4f1ea">TIO.712</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
+  <rect width="240" height="240" rx="40" fill="#0A0A0A"/>
+  <rect x="14" y="14" width="212" height="212" rx="32" stroke="#FFFFFF" stroke-opacity="0.28"/>
+  <path d="M65 174V66H115.5C142.5 66 160 81.5 160 105.5C160 127.5 145.5 142 121.5 144.5L171 174H133.5L91 147.5V174H65ZM91 91V124.5H114C128.5 124.5 135.5 118 135.5 107.5C135.5 97.5 128.5 91 114 91H91Z" fill="#FFFFFF"/>
 </svg>

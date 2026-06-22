@@ -4,28 +4,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>R.TIO.712 Film Composer | Film Score Portfolio</title>
-  <meta name="description" content="R.TIO.712 Film Composer - 영화 음악 포트폴리오. Drama, Thriller, Horror, Action, Romance, Melo, Experimental and Trailer film score works." />
-  <meta name="keywords" content="R.TIO.712, Film Composer, Film Score, 영화음악, 포트폴리오, 드라마, 스릴러, 공포, 액션, 로맨스, 멜로, 실험음악, 예고편 음악" />
-  <meta name="author" content="R.TIO.712" />
+  <meta name="description" content="R.TIO.712 Film Composer - 영화 음악 포트폴리오 웹사이트. 드라마, 스릴러, 공포, 액션, 로맨스, 멜로, 실험적인, 예고편 장르별 포트폴리오와 업로드 인터페이스 제공." />
   <meta property="og:title" content="R.TIO.712 Film Composer" />
-  <meta property="og:description" content="영화 음악 포트폴리오 | Film Score Portfolio" />
+  <meta property="og:description" content="Film Score Portfolio" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/images/og-cover.svg" />
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="grain"></div>
-
+  <div class="noise"></div>
   <header class="site-header">
     <a class="brand" href="#top" aria-label="R.TIO.712 home">
       <img src="assets/images/logo.svg" alt="R.TIO.712 Film Composer logo" />
-      <span>R.TIO.712</span>
+      <div>
+        <strong>R.TIO.712</strong>
+        <span>Film Composer</span>
+      </div>
     </a>
     <nav class="nav" aria-label="Main navigation">
-      <a href="#work">Genres</a>
-      <a href="#about">About</a>
-      <a href="#demo">Demo</a>
+      <a href="#overview">Overview</a>
+      <a href="#genres">Genres</a>
+      <a href="#upload-studio">Upload Studio</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -34,201 +34,117 @@
     <section class="hero section">
       <div class="hero-copy">
         <p class="eyebrow">FILM SCORE PORTFOLIO</p>
-        <h1>R.TIO.712<br><span>Film Composer</span></h1>
-        <p class="hero-sub">영화 음악 포트폴리오</p>
-        <p class="hero-text">
-          드라마의 감정선, 스릴러의 긴장감, 공포의 공기감, 액션의 추진력까지.
-          R.TIO.712는 장면의 온도와 침묵까지 음악으로 설계하는 Film Score Composer입니다.
+        <h1>R.TIO.712 <span>Film Composer</span></h1>
+        <p class="subtitle">영화 음악 포트폴리오</p>
+        <p class="lead">
+          감각적이고 시크한 블랙 & 화이트 무드 안에서, 영화 장면의 감정과 긴장, 호흡과 여백을 설계하는
+          Film Composer 포트폴리오 사이트입니다.
         </p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#work">장르별 작업 보기</a>
-          <a class="btn ghost" href="#contact">작업 문의</a>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#upload-studio">장르별 업로드 스튜디오 보기</a>
+          <a class="btn btn-secondary" href="#contact">문의하기</a>
         </div>
       </div>
-      <div class="hero-card" aria-label="Portfolio identity card">
-        <div class="mark">R</div>
-        <div class="card-lines">
-          <span></span><span></span><span></span><span></span>
+      <div class="hero-panel">
+        <div class="hero-panel-inner">
+          <p class="panel-small">R.TIO.712</p>
+          <h2>Film Score</h2>
+          <ul>
+            <li>Drama</li>
+            <li>Thriller</li>
+            <li>Horror</li>
+            <li>Action</li>
+            <li>Romance</li>
+            <li>Melo</li>
+            <li>Experimental</li>
+            <li>Trailer</li>
+          </ul>
+          <p class="panel-note">8 Genres × 100 Upload Slots</p>
         </div>
-        <p>Film Score<br>Sound Texture<br>Cinema Emotion</p>
       </div>
     </section>
 
-    <section id="work" class="section">
-      <div class="section-title">
-        <p class="eyebrow">CATEGORY / GENRE</p>
-        <h2>장르별 포트폴리오</h2>
-        <p>각 장르별로 음악 파일을 선택해 미리듣기 할 수 있고, 서버 업로드용 MP3 파일명도 함께 안내합니다.</p>
+    <section id="overview" class="section overview-section">
+      <div class="section-heading">
+        <p class="eyebrow">OVERVIEW</p>
+        <h2>블랙 & 화이트 포트폴리오 인터페이스</h2>
       </div>
-      <div class="genre-grid">
-        <article class="genre-card" data-genre="Drama" data-audio="assets/audio/drama.mp3">
+      <div class="overview-grid">
+        <article class="info-card">
           <span>01</span>
-          <h3>드라마</h3>
-          <p>잔잔한 피아노, 낮은 스트링, 인물의 내면을 따라가는 감정 중심 스코어.</p>
-          <div class="upload-box">
-            <label for="upload-drama">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-drama" class="audio-upload" type="file" accept="audio/*" data-target="audio-drama" data-label="label-drama" />
-            <small id="label-drama">서버 파일명: assets/audio/drama.mp3</small>
-          </div>
-          <audio id="audio-drama" controls preload="none">
-            <source src="assets/audio/drama.mp3" type="audio/mpeg" />
-          </audio>
+          <h3>시크한 인터페이스</h3>
+          <p>전체 화면을 블랙 & 화이트 중심으로 정리해 차갑고 세련된 영화 음악 포트폴리오 분위기를 구현했습니다.</p>
         </article>
-        <article class="genre-card" data-genre="Thriller" data-audio="assets/audio/thriller.mp3">
+        <article class="info-card">
           <span>02</span>
-          <h3>스릴러</h3>
-          <p>반복되는 펄스, 차가운 신스, 불안한 리듬으로 긴장감을 쌓는 음악.</p>
-          <div class="upload-box">
-            <label for="upload-thriller">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-thriller" class="audio-upload" type="file" accept="audio/*" data-target="audio-thriller" data-label="label-thriller" />
-            <small id="label-thriller">서버 파일명: assets/audio/thriller.mp3</small>
-          </div>
-          <audio id="audio-thriller" controls preload="none">
-            <source src="assets/audio/thriller.mp3" type="audio/mpeg" />
-          </audio>
+          <h3>장르별 100곡 관리</h3>
+          <p>드라마, 스릴러, 공포, 액션, 로맨스, 멜로, 실험적인, 예고편 각 장르마다 최대 100개의 업로드 슬롯을 구성했습니다.</p>
         </article>
-        <article class="genre-card" data-genre="Horror" data-audio="assets/audio/horror.mp3">
+        <article class="info-card">
           <span>03</span>
-          <h3>공포</h3>
-          <p>공간감, 노이즈, 숨소리 같은 질감을 활용한 심리적 공포 사운드.</p>
-          <div class="upload-box">
-            <label for="upload-horror">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-horror" class="audio-upload" type="file" accept="audio/*" data-target="audio-horror" data-label="label-horror" />
-            <small id="label-horror">서버 파일명: assets/audio/horror.mp3</small>
-          </div>
-          <audio id="audio-horror" controls preload="none">
-            <source src="assets/audio/horror.mp3" type="audio/mpeg" />
-          </audio>
+          <h3>빠른 미리듣기</h3>
+          <p>각 슬롯에서 로컬 오디오 파일을 선택하면 곧바로 플레이어에 연결되어 미리듣기가 가능합니다.</p>
         </article>
-        <article class="genre-card" data-genre="Action" data-audio="assets/audio/action.mp3">
+        <article class="info-card">
           <span>04</span>
-          <h3>액션</h3>
-          <p>타악기, 베이스, 브라스, 하이브리드 오케스트라로 만드는 추진력.</p>
-          <div class="upload-box">
-            <label for="upload-action">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-action" class="audio-upload" type="file" accept="audio/*" data-target="audio-action" data-label="label-action" />
-            <small id="label-action">서버 파일명: assets/audio/action.mp3</small>
-          </div>
-          <audio id="audio-action" controls preload="none">
-            <source src="assets/audio/action.mp3" type="audio/mpeg" />
-          </audio>
-        </article>
-        <article class="genre-card" data-genre="Romance" data-audio="assets/audio/romance.mp3">
-          <span>05</span>
-          <h3>로맨스</h3>
-          <p>따뜻한 기타, 피아노, 섬세한 패드로 설계하는 사랑의 거리감.</p>
-          <div class="upload-box">
-            <label for="upload-romance">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-romance" class="audio-upload" type="file" accept="audio/*" data-target="audio-romance" data-label="label-romance" />
-            <small id="label-romance">서버 파일명: assets/audio/romance.mp3</small>
-          </div>
-          <audio id="audio-romance" controls preload="none">
-            <source src="assets/audio/romance.mp3" type="audio/mpeg" />
-          </audio>
-        </article>
-        <article class="genre-card" data-genre="Melo" data-audio="assets/audio/melo.mp3">
-          <span>06</span>
-          <h3>멜로</h3>
-          <p>절제된 멜로디와 여백으로 감정을 깊게 남기는 서정적 스코어.</p>
-          <div class="upload-box">
-            <label for="upload-melo">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-melo" class="audio-upload" type="file" accept="audio/*" data-target="audio-melo" data-label="label-melo" />
-            <small id="label-melo">서버 파일명: assets/audio/melo.mp3</small>
-          </div>
-          <audio id="audio-melo" controls preload="none">
-            <source src="assets/audio/melo.mp3" type="audio/mpeg" />
-          </audio>
-        </article>
-        <article class="genre-card" data-genre="Experimental" data-audio="assets/audio/experimental.mp3">
-          <span>07</span>
-          <h3>실험적인</h3>
-          <p>전통적 화성에서 벗어나 이미지와 감각을 먼저 설계하는 사운드 디자인.</p>
-          <div class="upload-box">
-            <label for="upload-experimental">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-experimental" class="audio-upload" type="file" accept="audio/*" data-target="audio-experimental" data-label="label-experimental" />
-            <small id="label-experimental">서버 파일명: assets/audio/experimental.mp3</small>
-          </div>
-          <audio id="audio-experimental" controls preload="none">
-            <source src="assets/audio/experimental.mp3" type="audio/mpeg" />
-          </audio>
-        </article>
-        <article class="genre-card" data-genre="Trailer" data-audio="assets/audio/trailer.mp3">
-          <span>08</span>
-          <h3>예고편</h3>
-          <p>빌드업, 드롭, 히트, 리저를 활용한 영화 예고편용 임팩트 음악.</p>
-          <div class="upload-box">
-            <label for="upload-trailer">음악 파일 선택 / Upload Audio</label>
-            <input id="upload-trailer" class="audio-upload" type="file" accept="audio/*" data-target="audio-trailer" data-label="label-trailer" />
-            <small id="label-trailer">서버 파일명: assets/audio/trailer.mp3</small>
-          </div>
-          <audio id="audio-trailer" controls preload="none">
-            <source src="assets/audio/trailer.mp3" type="audio/mpeg" />
-          </audio>
+          <h3>서버 업로드 대응</h3>
+          <p>정적 HTML/CSS/JS 구조로 제작되어 GitHub Pages, 일반 호스팅, 서버, 스토리지 등에 올리기 쉽습니다.</p>
         </article>
       </div>
     </section>
 
-    <section id="demo" class="section demo-section">
-      <div class="section-title">
-        <p class="eyebrow">AUDIO UPLOAD GUIDE</p>
-        <h2>장르별 음악 업로드 안내</h2>
-        <p>브라우저에서 파일 선택을 하면 바로 미리듣기가 가능합니다. 실제 웹사이트에 고정하려면 아래 파일명으로 MP3를 assets/audio 폴더에 넣고 서버에 다시 업로드하세요.</p>
+    <section id="genres" class="section genres-section">
+      <div class="section-heading between">
+        <div>
+          <p class="eyebrow">GENRES</p>
+          <h2>장르 카테고리</h2>
+        </div>
+        <p class="heading-note">각 장르를 클릭하면 업로드 스튜디오 영역으로 이동합니다.</p>
       </div>
-      <div class="upload-guide-grid">
-        <div><strong>드라마</strong><small>assets/audio/drama.mp3</small></div>
-        <div><strong>스릴러</strong><small>assets/audio/thriller.mp3</small></div>
-        <div><strong>공포</strong><small>assets/audio/horror.mp3</small></div>
-        <div><strong>액션</strong><small>assets/audio/action.mp3</small></div>
-        <div><strong>로맨스</strong><small>assets/audio/romance.mp3</small></div>
-        <div><strong>멜로</strong><small>assets/audio/melo.mp3</small></div>
-        <div><strong>실험적인</strong><small>assets/audio/experimental.mp3</small></div>
-        <div><strong>예고편</strong><small>assets/audio/trailer.mp3</small></div>
-      </div>
-      <div class="note-card">
-        <strong>중요</strong>
-        <p>웹사이트 방문자가 파일 선택 버튼으로 고른 음악은 그 사람의 브라우저에서만 임시 재생됩니다. 모든 방문자에게 음악이 보이게 하려면 MP3 파일을 위 파일명으로 저장한 뒤 서버/GitHub 저장소의 assets/audio 폴더에 업로드해야 합니다.</p>
-      </div>
+      <div class="genre-grid" id="genreGrid"></div>
     </section>
 
-    <section id="about" class="section about-section">
-      <div class="about-panel">
-        <p class="eyebrow">ABOUT</p>
-        <h2>R.TIO.712</h2>
+    <section id="upload-studio" class="section upload-studio-section">
+      <div class="section-heading between">
+        <div>
+          <p class="eyebrow">UPLOAD STUDIO</p>
+          <h2>장르별 음악 업로드 인터페이스</h2>
+        </div>
+        <div class="legend-box">
+          <span><i></i> 업로드 가능 슬롯: 장르별 100개</span>
+          <span><i></i> 브라우저에서 미리듣기 가능</span>
+        </div>
+      </div>
+      <div class="helper-card">
+        <strong>사용 안내</strong>
         <p>
-          R.TIO.712는 싱어송라이터, 기타리스트, 프로듀서로 활동하며 영화 음악 작업을 목표로 하는 Film Composer입니다.
-          현재 중국 광저우를 기반으로 활동하고 있으며, 영화·단편·예고편·브랜드 필름 작업을 위해 한국 및 해외 미팅이 가능합니다.
+          각 장르 패널을 열면 1번부터 100번까지 업로드 슬롯이 생성됩니다. 제목을 입력하고 오디오 파일을 선택하면,
+          해당 슬롯 아래 플레이어에서 바로 미리듣기 할 수 있습니다. 이 업로드는 브라우저 미리보기용 인터페이스이며,
+          실제 서버에 영구적으로 반영하려면 MP3 파일을 서버 폴더에 따로 업로드해야 합니다.
         </p>
       </div>
-      <div class="about-panel muted-panel">
-        <p class="eyebrow">DIRECTION</p>
-        <h2>Sound For Scene</h2>
-        <p>
-          장면을 설명하는 음악보다 장면의 감각을 확장하는 음악을 지향합니다.
-          미니멀한 피아노, 어쿠스틱 기타, 로우 신스, 텍스처 사운드, 하이브리드 오케스트라까지 장르에 따라 유연하게 설계합니다.
-        </p>
-      </div>
+      <div id="genreManagers" class="genre-managers"></div>
     </section>
 
     <section id="contact" class="section contact-section">
       <div>
         <p class="eyebrow">CONTACT</p>
-        <h2>Film, Short Film, Trailer, Brand Film</h2>
-        <p>영화 음악 작업, 데모 요청, 미팅 제안은 아래 연락처로 문의해 주세요.</p>
+        <h2>Film / Short Film / Trailer / Brand Film</h2>
+        <p class="contact-intro">작업 문의, 데모 요청, 미팅 제안은 아래 연락처로 가능합니다.</p>
       </div>
       <div class="contact-card">
-        <a href="mailto:a0712345@naver.com">a0712345@naver.com</a>
-        <span>China: <a href="tel:+8613560144677">+86 135 6014 4677</a></span>
-        <span>Korea: <a href="tel:+821051467712">+82 10 5146 7712</a></span>
-        <span>WeChat: <strong>pstefan712</strong></span>
-        <span>Kakao: <strong>712pstefan</strong></span>
-        <span>Guangzhou, China · Available for Korea meetings</span>
+        <div class="contact-row"><span class="label">Email</span><a href="mailto:a0712345@naver.com">a0712345@naver.com</a></div>
+        <div class="contact-row"><span class="label">China</span><span>+86 135 6014 4677</span></div>
+        <div class="contact-row"><span class="label">Korea</span><span>+82 10 5146 7712</span></div>
+        <div class="contact-row"><span class="label">WeChat</span><span>pstefan712</span></div>
+        <div class="contact-row"><span class="label">Kakao</span><span>712pstefan</span></div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <span>© <span id="year"></span> R.TIO.712 Film Composer</span>
-    <span>Film Score Portfolio Website</span>
+    <span>Black & White Film Score Portfolio Website</span>
   </footer>
 
   <script src="script.js"></script>
