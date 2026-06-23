@@ -1,1 +1,5 @@
-[]
+[
+  { "title": "coming of age ani", "file": "coming-of-age-ani.mp3" },
+  { "title": "sad ending ani", "file": "sad-ending-ani.mp3" },
+  { "title": "sad sea", "file": "sad-sea.mp3" }
+]
