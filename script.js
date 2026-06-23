@@ -25,6 +25,8 @@ const firebaseConfig = {
 };
 let db = null;
 let firebaseReady = false;
+let siteVisitUnsub = null;
+let playCountUnsubs = [];
 try {
   if (window.firebase && firebaseConfig && firebaseConfig.projectId) {
     firebase.initializeApp(firebaseConfig);
@@ -56,27 +58,45 @@ function setLocalPlayCount(genre,file,count){const counts=getPlayCounts(); count
 function incrementLocalPlayCount(genre,file){const counts=getPlayCounts(); const id=trackId(genre,file); counts[id]=Number(counts[id]||0)+1; writeStore(STORAGE.playCounts,counts); return counts[id]}
 function requirePassword(message){const input=prompt(message||'비밀번호를 입력하세요.'); return input===PASSWORD}
 
-async function updateVisitorCount(){
+function setVisitorDisplay(value){
   const node = document.getElementById('visitorCount');
+  if(node) node.textContent = Number(value||0).toLocaleString();
+}
+function startVisitorRealtime(){
+  if(!(firebaseReady && db)) return false;
+  try{
+    if(siteVisitUnsub) siteVisitUnsub();
+    siteVisitUnsub = db.collection('stats').doc('site').onSnapshot((snap)=>{
+      const total = snap.exists ? Number(snap.data().visits||0) : 0;
+      setVisitorDisplay(total);
+    }, (error)=>{
+      console.warn('Firebase realtime visitor listener failed.', error);
+    });
+    return true;
+  }catch(error){
+    console.warn('Firebase realtime visitor listener setup failed.', error);
+    return false;
+  }
+}
+async function updateVisitorCount(){
   if(firebaseReady && db){
+    const live = startVisitorRealtime();
     try{
       const ref = db.collection('stats').doc('site');
-      const total = await db.runTransaction(async tx=>{
+      await db.runTransaction(async tx=>{
         const snap = await tx.get(ref);
         const current = snap.exists ? Number(snap.data().visits||0) : 0;
-        const next = current + 1;
-        tx.set(ref,{visits: next, updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-        return next;
+        tx.set(ref,{visits: current + 1, updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
       });
-      if(node) node.textContent = total.toLocaleString();
       return;
     }catch(error){
       console.warn('Firebase visitor count failed. Local fallback is active.', error);
+      if(live && siteVisitUnsub){ siteVisitUnsub(); siteVisitUnsub = null; }
     }
   }
   const current = Number(localStorage.getItem(STORAGE.visits)||0) + 1;
   localStorage.setItem(STORAGE.visits,String(current));
-  if(node) node.textContent = current.toLocaleString();
+  setVisitorDisplay(current);
 }
 async function getRemotePlayCount(genre,file){
   if(!(firebaseReady && db)) return getLocalPlayCount(genre,file);
@@ -94,22 +114,48 @@ async function incrementPlayCount(genre,file){
   if(firebaseReady && db){
     try{
       const ref = db.collection('stats').doc('plays').collection('tracks').doc(firestoreTrackDocId(genre,file));
-      const total = await db.runTransaction(async tx=>{
+      await db.runTransaction(async tx=>{
         const snap = await tx.get(ref);
         const current = snap.exists ? Number(snap.data().count||0) : 0;
-        const next = current + 1;
-        tx.set(ref,{count: next, genre, file, trackId: trackId(genre,file), updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
-        return next;
+        tx.set(ref,{count: current + 1, genre, file, trackId: trackId(genre,file), updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
       });
-      setLocalPlayCount(genre,file,total);
-      return total;
+      return null;
     }catch(error){
       console.warn('Firebase play count write failed. Local fallback is active.', error);
     }
   }
   return incrementLocalPlayCount(genre,file);
 }
+function stopPlayCountRealtime(){
+  playCountUnsubs.forEach(unsub=>{ try{unsub();}catch(e){} });
+  playCountUnsubs = [];
+}
+function startPlayCountRealtime(){
+  stopPlayCountRealtime();
+  if(!(firebaseReady && db)) return false;
+  try{
+    genres.forEach(({key})=>{
+      (data[key]||[]).map(normalizeTrack).forEach(t=>{
+        const ref = db.collection('stats').doc('plays').collection('tracks').doc(firestoreTrackDocId(key,t.file));
+        const unsub = ref.onSnapshot((snap)=>{
+          const count = snap.exists ? Number(snap.data().count||0) : 0;
+          setLocalPlayCount(key,t.file,count);
+          updateCountLabels(key,t.file,count);
+        }, (error)=>{
+          console.warn('Firebase realtime play listener failed.', error);
+        });
+        playCountUnsubs.push(unsub);
+      });
+    });
+    return true;
+  }catch(error){
+    console.warn('Firebase realtime play listener setup failed.', error);
+    return false;
+  }
+}
 async function syncAllPlayCounts(){
+  const live = startPlayCountRealtime();
+  if(live) return;
   const jobs=[];
   genres.forEach(({key})=>{
     (data[key]||[]).map(normalizeTrack).forEach(t=>jobs.push(getRemotePlayCount(key,t.file).then(count=>updateCountLabels(key,t.file,count))));
@@ -138,7 +184,7 @@ function renderGenreCards(){
     const list=(data[key]||[]).map(normalizeTrack);
     const latest=list[0];
     const card=document.createElement('article'); card.className='genre-card';
-    card.innerHTML=`<h3>${esc(ko)}</h3><small>${esc(en)}</small><span class="genre-count">${list.length} / 50 Tracks</span><div class="latest">${latest?`<b>${esc(latest.title)}</b><span>${esc(latest.file)}</span><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(latest.file)}" src="${audioPath(key,latest.file)}"></audio><div class="play-stat">TOTAL PLAY <strong data-count-for="${esc(trackId(key,latest.file))}">${getLocalPlayCount(key,latest.file)}</strong></div>`:`<div class="empty">아직 등록된 MP3가 없습니다.<br>GitHub에 MP3와 tracks.json을 올려주세요.</div>`}</div>`;
+    card.innerHTML=`<h3>${esc(ko)}</h3><small>${esc(en)}</small><span class="genre-count">${list.length} / 50 Tracks</span><div class="latest">${latest?`<b>${esc(latest.title)}</b><span>${esc(latest.file)}</span><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(latest.file)}" src="${audioPath(key,latest.file)}"></audio><div class="play-stat">REALTIME PLAY <strong data-count-for="${esc(trackId(key,latest.file))}">${getLocalPlayCount(key,latest.file)}</strong></div>`:`<div class="empty">아직 등록된 MP3가 없습니다.<br>GitHub에 MP3와 tracks.json을 올려주세요.</div>`}</div>`;
     card.onclick=(event)=>{ if(event.target.closest('audio')) return; document.getElementById(`lib-${key}`).scrollIntoView({behavior:'smooth',block:'start'}); };
     genreCards.appendChild(card);
   });
@@ -154,7 +200,7 @@ function renderLibraries(){
     const sec=document.createElement('section'); sec.className='library-section'; sec.id=`lib-${key}`;
     let html=`<div class="library-head"><div><p class="eyebrow">${esc(en)}</p><h3>${esc(ko)}</h3></div><span class="genre-count">${list.length} / 50 Tracks</span></div>`;
     if(!list.length){ html += `<div class="empty">${esc(ko)} 장르에 등록된 MP3가 없습니다.</div>`; }
-    list.forEach((t,i)=>{ const url=audioPath(key,t.file); html += `<div class="track-row"><div class="no">#${String(i+1).padStart(2,'0')}</div><div class="title">${esc(t.title)}<div class="play-stat">TOTAL PLAY <strong data-count-for="${esc(trackId(key,t.file))}">${getLocalPlayCount(key,t.file)}</strong></div></div><div class="file">${esc(t.file)}</div><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(t.file)}" src="${url}"></audio><button class="btn-download" data-url="${esc(url)}" data-file="${esc(t.file)}">Download</button></div>`; });
+    list.forEach((t,i)=>{ const url=audioPath(key,t.file); html += `<div class="track-row"><div class="no">#${String(i+1).padStart(2,'0')}</div><div class="title">${esc(t.title)}<div class="play-stat">REALTIME PLAY <strong data-count-for="${esc(trackId(key,t.file))}">${getLocalPlayCount(key,t.file)}</strong></div></div><div class="file">${esc(t.file)}</div><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(t.file)}" src="${url}"></audio><button class="btn-download" data-url="${esc(url)}" data-file="${esc(t.file)}">Download</button></div>`; });
     sec.innerHTML=html; librarySections.appendChild(sec);
   });
   document.querySelectorAll('.btn-download').forEach(btn=>btn.onclick=()=>downloadWithPassword(btn.dataset.url,btn.dataset.file));
@@ -171,9 +217,17 @@ function bindAudioSinglePlay(){
     if(audio.dataset.boundSinglePlay === '1') return;
     audio.dataset.boundSinglePlay = '1';
     audio.addEventListener('play', async ()=>{
-      document.querySelectorAll('audio').forEach(other=>{ if(other!==audio){ other.pause(); } });
+      document.querySelectorAll('audio').forEach(other=>{
+        if(other!==audio){
+          other.pause();
+          try{ other.currentTime = 0; }catch(e){}
+        }
+      });
       const genre=audio.dataset.genre; const file=audio.dataset.file;
-      if(genre && file){ const count=await incrementPlayCount(genre,file); updateCountLabels(genre,file,count); }
+      if(genre && file){
+        const localFallbackCount=await incrementPlayCount(genre,file);
+        if(localFallbackCount !== null) updateCountLabels(genre,file,localFallbackCount);
+      }
     }, {once:false});
   });
 }
