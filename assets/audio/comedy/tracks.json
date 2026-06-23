@@ -1,1 +1,5 @@
-[]
+[
+  { "title": "enka guitar", "file": "enka-guitar.mp3" },
+  { "title": "sad smile", "file": "sad-smile.mp3" },
+  { "title": "upbeat brass", "file": "upbeat-brass.mp3" }
+]
