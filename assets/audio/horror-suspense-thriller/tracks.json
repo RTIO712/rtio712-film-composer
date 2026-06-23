@@ -1,1 +1,6 @@
-[]
+[
+  { "title": "bell sad", "file": "bell-sad.mp3" },
+  { "title": "jaws", "file": "jaws.mp3" },
+  { "title": "misery", "file": "misery.mp3" },
+  { "title": "mystery", "file": "mystery.mp3" }
+]
