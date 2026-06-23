@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>R.TIO.712 Film Composer | GitHub MP3 Auto List</title>
-  <meta name="description" content="R.TIO.712 Film Composer Portfolio - GitHub에 올린 MP3 파일을 장르별로 자동 표시하는 안정 업그레이드 버전." />
+  <title>R.TIO.712 Film Composer | Firebase Global Counter</title>
+  <meta name="description" content="R.TIO.712 Film Composer Portfolio - Firebase 전체 방문자 수와 음원별 재생 수가 연결된 업그레이드 버전." />
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -129,10 +129,12 @@
     </section>
   </main>
 
-  <div class="visitor-badge" title="이 브라우저 기준 누적 방문 지수">
-    <span>VISITS</span><strong id="visitorCount">0</strong>
+  <div class="visitor-badge" title="Firebase 전체 방문자 누적 지수">
+    <span>TOTAL VISITS</span><strong id="visitorCount">0</strong>
   </div>
   <footer class="site-footer"><div class="wrap footer-inner">© <span id="year"></span> R.TIO.712 Film Composer</div></footer>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

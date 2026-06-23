@@ -15,6 +15,25 @@ const STORAGE = {
   playCounts: 'rtio712_play_counts_v1',
   visits: 'rtio712_visit_count_v1'
 };
+const firebaseConfig = {
+  apiKey: "AIzaSyDUeaGPqlORwjxenFslfgj4O3ZXUa6coLs",
+  authDomain: "rtio712-film-composer.firebaseapp.com",
+  projectId: "rtio712-film-composer",
+  storageBucket: "rtio712-film-composer.firebasestorage.app",
+  messagingSenderId: "463866408311",
+  appId: "1:463866408311:web:0d0e1fb44af94b880f4572"
+};
+let db = null;
+let firebaseReady = false;
+try {
+  if (window.firebase && firebaseConfig && firebaseConfig.projectId) {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    firebaseReady = true;
+  }
+} catch (error) {
+  console.warn('Firebase connection failed. Local fallback is active.', error);
+}
 const year = document.getElementById('year'); if(year) year.textContent = new Date().getFullYear();
 const genreCards = document.getElementById('genreCards');
 const librarySections = document.getElementById('librarySections');
@@ -30,16 +49,72 @@ function readStore(key,fallback){try{const raw=localStorage.getItem(key); return
 function writeStore(key,value){localStorage.setItem(key,JSON.stringify(value))}
 function normalizeTrack(t){ if(typeof t==='string') return {file:t,title:titleFromFile(t)}; return {file:t.file||'',title:t.title||titleFromFile(t.file||'')}; }
 function trackId(genre,file){return `${genre}::${file}`}
+function firestoreTrackDocId(genre,file){return encodeURIComponent(trackId(genre,file)).replaceAll('.','%2E')}
 function getPlayCounts(){return readStore(STORAGE.playCounts,{})}
-function getPlayCount(genre,file){return Number(getPlayCounts()[trackId(genre,file)]||0)}
-function incrementPlayCount(genre,file){const counts=getPlayCounts(); const id=trackId(genre,file); counts[id]=Number(counts[id]||0)+1; writeStore(STORAGE.playCounts,counts); return counts[id]}
+function getLocalPlayCount(genre,file){return Number(getPlayCounts()[trackId(genre,file)]||0)}
+function setLocalPlayCount(genre,file,count){const counts=getPlayCounts(); counts[trackId(genre,file)]=Number(count||0); writeStore(STORAGE.playCounts,counts)}
+function incrementLocalPlayCount(genre,file){const counts=getPlayCounts(); const id=trackId(genre,file); counts[id]=Number(counts[id]||0)+1; writeStore(STORAGE.playCounts,counts); return counts[id]}
 function requirePassword(message){const input=prompt(message||'비밀번호를 입력하세요.'); return input===PASSWORD}
 
-function updateVisitorCount(){
+async function updateVisitorCount(){
+  const node = document.getElementById('visitorCount');
+  if(firebaseReady && db){
+    try{
+      const ref = db.collection('stats').doc('site');
+      const total = await db.runTransaction(async tx=>{
+        const snap = await tx.get(ref);
+        const current = snap.exists ? Number(snap.data().visits||0) : 0;
+        const next = current + 1;
+        tx.set(ref,{visits: next, updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+        return next;
+      });
+      if(node) node.textContent = total.toLocaleString();
+      return;
+    }catch(error){
+      console.warn('Firebase visitor count failed. Local fallback is active.', error);
+    }
+  }
   const current = Number(localStorage.getItem(STORAGE.visits)||0) + 1;
   localStorage.setItem(STORAGE.visits,String(current));
-  const node = document.getElementById('visitorCount');
   if(node) node.textContent = current.toLocaleString();
+}
+async function getRemotePlayCount(genre,file){
+  if(!(firebaseReady && db)) return getLocalPlayCount(genre,file);
+  try{
+    const doc = await db.collection('stats').doc('plays').collection('tracks').doc(firestoreTrackDocId(genre,file)).get();
+    const count = doc.exists ? Number(doc.data().count||0) : 0;
+    setLocalPlayCount(genre,file,count);
+    return count;
+  }catch(error){
+    console.warn('Firebase play count read failed.', error);
+    return getLocalPlayCount(genre,file);
+  }
+}
+async function incrementPlayCount(genre,file){
+  if(firebaseReady && db){
+    try{
+      const ref = db.collection('stats').doc('plays').collection('tracks').doc(firestoreTrackDocId(genre,file));
+      const total = await db.runTransaction(async tx=>{
+        const snap = await tx.get(ref);
+        const current = snap.exists ? Number(snap.data().count||0) : 0;
+        const next = current + 1;
+        tx.set(ref,{count: next, genre, file, trackId: trackId(genre,file), updatedAt: firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+        return next;
+      });
+      setLocalPlayCount(genre,file,total);
+      return total;
+    }catch(error){
+      console.warn('Firebase play count write failed. Local fallback is active.', error);
+    }
+  }
+  return incrementLocalPlayCount(genre,file);
+}
+async function syncAllPlayCounts(){
+  const jobs=[];
+  genres.forEach(({key})=>{
+    (data[key]||[]).map(normalizeTrack).forEach(t=>jobs.push(getRemotePlayCount(key,t.file).then(count=>updateCountLabels(key,t.file,count))));
+  });
+  await Promise.allSettled(jobs);
 }
 async function loadGenreList(){
   let base = DEFAULT_GENRES;
@@ -63,7 +138,7 @@ function renderGenreCards(){
     const list=(data[key]||[]).map(normalizeTrack);
     const latest=list[0];
     const card=document.createElement('article'); card.className='genre-card';
-    card.innerHTML=`<h3>${esc(ko)}</h3><small>${esc(en)}</small><span class="genre-count">${list.length} / 50 Tracks</span><div class="latest">${latest?`<b>${esc(latest.title)}</b><span>${esc(latest.file)}</span><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(latest.file)}" src="${audioPath(key,latest.file)}"></audio><div class="play-stat">PLAY COUNT <strong data-count-for="${esc(trackId(key,latest.file))}">${getPlayCount(key,latest.file)}</strong></div>`:`<div class="empty">아직 등록된 MP3가 없습니다.<br>GitHub에 MP3와 tracks.json을 올려주세요.</div>`}</div>`;
+    card.innerHTML=`<h3>${esc(ko)}</h3><small>${esc(en)}</small><span class="genre-count">${list.length} / 50 Tracks</span><div class="latest">${latest?`<b>${esc(latest.title)}</b><span>${esc(latest.file)}</span><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(latest.file)}" src="${audioPath(key,latest.file)}"></audio><div class="play-stat">TOTAL PLAY <strong data-count-for="${esc(trackId(key,latest.file))}">${getLocalPlayCount(key,latest.file)}</strong></div>`:`<div class="empty">아직 등록된 MP3가 없습니다.<br>GitHub에 MP3와 tracks.json을 올려주세요.</div>`}</div>`;
     card.onclick=(event)=>{ if(event.target.closest('audio')) return; document.getElementById(`lib-${key}`).scrollIntoView({behavior:'smooth',block:'start'}); };
     genreCards.appendChild(card);
   });
@@ -79,7 +154,7 @@ function renderLibraries(){
     const sec=document.createElement('section'); sec.className='library-section'; sec.id=`lib-${key}`;
     let html=`<div class="library-head"><div><p class="eyebrow">${esc(en)}</p><h3>${esc(ko)}</h3></div><span class="genre-count">${list.length} / 50 Tracks</span></div>`;
     if(!list.length){ html += `<div class="empty">${esc(ko)} 장르에 등록된 MP3가 없습니다.</div>`; }
-    list.forEach((t,i)=>{ const url=audioPath(key,t.file); html += `<div class="track-row"><div class="no">#${String(i+1).padStart(2,'0')}</div><div class="title">${esc(t.title)}<div class="play-stat">PLAY COUNT <strong data-count-for="${esc(trackId(key,t.file))}">${getPlayCount(key,t.file)}</strong></div></div><div class="file">${esc(t.file)}</div><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(t.file)}" src="${url}"></audio><button class="btn-download" data-url="${esc(url)}" data-file="${esc(t.file)}">Download</button></div>`; });
+    list.forEach((t,i)=>{ const url=audioPath(key,t.file); html += `<div class="track-row"><div class="no">#${String(i+1).padStart(2,'0')}</div><div class="title">${esc(t.title)}<div class="play-stat">TOTAL PLAY <strong data-count-for="${esc(trackId(key,t.file))}">${getLocalPlayCount(key,t.file)}</strong></div></div><div class="file">${esc(t.file)}</div><audio controls preload="none" data-genre="${esc(key)}" data-file="${esc(t.file)}" src="${url}"></audio><button class="btn-download" data-url="${esc(url)}" data-file="${esc(t.file)}">Download</button></div>`; });
     sec.innerHTML=html; librarySections.appendChild(sec);
   });
   document.querySelectorAll('.btn-download').forEach(btn=>btn.onclick=()=>downloadWithPassword(btn.dataset.url,btn.dataset.file));
@@ -93,16 +168,18 @@ function renderGenreManager(){
 }
 function bindAudioSinglePlay(){
   document.querySelectorAll('audio').forEach(audio=>{
-    audio.addEventListener('play',()=>{
+    if(audio.dataset.boundSinglePlay === '1') return;
+    audio.dataset.boundSinglePlay = '1';
+    audio.addEventListener('play', async ()=>{
       document.querySelectorAll('audio').forEach(other=>{ if(other!==audio){ other.pause(); } });
       const genre=audio.dataset.genre; const file=audio.dataset.file;
-      if(genre && file){ const count=incrementPlayCount(genre,file); updateCountLabels(genre,file,count); }
+      if(genre && file){ const count=await incrementPlayCount(genre,file); updateCountLabels(genre,file,count); }
     }, {once:false});
   });
 }
 function updateCountLabels(genre,file,count){
   const id = trackId(genre,file);
-  document.querySelectorAll(`[data-count-for="${CSS.escape(id)}"]`).forEach(node=>{ node.textContent=Number(count).toLocaleString(); });
+  document.querySelectorAll(`[data-count-for="${CSS.escape(id)}"]`).forEach(node=>{ node.textContent=Number(count||0).toLocaleString(); });
 }
 function cleanGenreKey(value){return String(value||'').trim().toLowerCase().replace(/[^a-z0-9_-]/g,'')}
 function bindGenreActions(){
@@ -136,7 +213,7 @@ function bindGenreActions(){
 async function init(){
   await loadGenreList();
   for(const {key} of genres){ data[key]=await loadGenre(key); }
-  renderGenreCards(); renderGenreManager(); renderLibraries(); bindAudioSinglePlay();
+  renderGenreCards(); renderGenreManager(); renderLibraries(); bindAudioSinglePlay(); await syncAllPlayCounts();
 }
 updateVisitorCount();
 bindGenreActions();

@@ -1,42 +1,52 @@
-# R.TIO.712 Film Composer Website - Upgrade Version
+# R.TIO.712 Film Composer Website - Firebase Global Counter Version
 
-## 추가된 기능
-1. 사이트 우측 하단 방문 누적 지수 표시
-   - GitHub Pages는 서버 저장 기능이 없기 때문에 각 브라우저 기준 누적 방문 지수입니다.
-2. 장르 추가 / 삭제 공간 추가
-   - 사이트 안에서는 현재 브라우저 기준으로 장르를 추가/삭제할 수 있습니다.
-   - 모든 방문자에게 적용하려면 `assets/audio/genres.json`도 GitHub에서 수정해야 합니다.
-3. 각 음원별 재생 누적 지수 표시
-   - 각 브라우저 기준 누적 재생 지수입니다.
-4. 한 음원만 재생 기능
-   - 다른 음원을 재생하면 이전에 재생되던 음원은 자동 정지됩니다.
+이 버전은 기존 사이트 디자인과 MP3 자동 목록 방식을 유지하면서 Firebase Cloud Firestore를 연결한 버전입니다.
 
-## 장르 추가를 모든 방문자에게 적용하는 방법
-1. `assets/audio/genres.json`에 새 장르를 추가합니다.
+## 추가 기능
 
-예:
+- 전체 방문자 누적 수를 Firebase에 저장
+- 각 음원별 전체 재생 누적 수를 Firebase에 저장
+- 모든 방문자가 같은 누적 숫자를 확인
+- 다른 음원을 재생하면 이전 음원이 자동 정지
+- 다운로드 비밀번호: 0712
+
+## 업로드 방법
+
+ZIP 파일을 그대로 올리지 말고 압축을 푼 뒤 아래 파일과 폴더를 GitHub 저장소 최상단에 올리세요.
+
+- index.html
+- style.css
+- script.js
+- README_DEPLOY_KR.md
+- assets
+
+## Firebase Rules
+
+Firestore Database > 규칙에 아래 규칙이 있어야 카운터가 작동합니다.
+
+```js
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /stats/{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+```
+
+## 음악 추가 방법
+
+예: 드라마 장르
+
+1. `assets/audio/drama` 폴더에 MP3 파일 업로드
+2. `assets/audio/drama/tracks.json` 수정
+
 ```json
-{ "key": "fantasy", "ko": "판타지", "en": "Fantasy" }
+[
+  { "title": "Main Theme", "file": "main-theme.mp3" }
+]
 ```
 
-2. 새 폴더를 만듭니다.
-
-```text
-assets/audio/fantasy
-```
-
-3. 그 안에 `tracks.json`을 만듭니다.
-
-```json
-[]
-```
-
-4. MP3 파일을 같은 폴더에 업로드하고 `tracks.json`에 추가합니다.
-
-## 비밀번호
-- 다운로드: 0712
-- 장르 추가/삭제: 0712
-
-## 주의사항
-방문 수와 재생 수는 무료 GitHub Pages에서 서버 전체 누적이 아니라, 사용자의 브라우저 안에 저장되는 로컬 누적 지수입니다.
-전체 방문자/전체 재생 수를 모든 사용자 기준으로 통합하려면 Firebase, Supabase 같은 데이터베이스가 필요합니다.
+MP3 파일명은 영어 소문자, 숫자, 하이픈 사용을 추천합니다.
