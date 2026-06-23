@@ -1,17 +1,17 @@
 const PASSWORD = '0712';
 const DEFAULT_GENRES = [
-  {key:'drama', ko:'드라마', en:'Drama'},
-  {key:'thriller', ko:'스릴러', en:'Thriller'},
-  {key:'horror', ko:'공포', en:'Horror'},
-  {key:'action', ko:'액션', en:'Action'},
-  {key:'romance', ko:'로맨스', en:'Romance'},
-  {key:'melo', ko:'멜로', en:'Melo'},
-  {key:'experimental', ko:'실험적인', en:'Experimental'},
-  {key:'trailer', ko:'예고편', en:'Trailer'}
+  {key:'drama-romance', ko:'드라마/로맨스', en:'Drama / Romance'},
+  {key:'horror-suspense-thriller', ko:'공포/서스펜스/스릴러', en:'Horror / Suspense / Thriller'},
+  {key:'action-crime-noir', ko:'액션/범죄/느와르', en:'Action / Crime / Noir'},
+  {key:'adventure', ko:'어드벤처', en:'Adventure'},
+  {key:'sf-fantasy', ko:'SF 공상과학/판타지', en:'Sci-Fi / Fantasy'},
+  {key:'comedy', ko:'코미디', en:'Comedy'},
+  {key:'musical', ko:'뮤지컬', en:'Musical'},
+  {key:'documentary', ko:'다큐멘터리', en:'Documentary'},
+  {key:'animation', ko:'애니메이션', en:'Animation'},
+  {key:'vocal-all', ko:'보컬 / 전체음악', en:'Vocal / All Music'}
 ];
 const STORAGE = {
-  customGenres: 'rtio712_custom_genres_v1',
-  deletedGenres: 'rtio712_deleted_genres_v1',
   playCounts: 'rtio712_play_counts_v1',
   visits: 'rtio712_visit_count_v1'
 };
@@ -39,7 +39,6 @@ try {
 const year = document.getElementById('year'); if(year) year.textContent = new Date().getFullYear();
 const genreCards = document.getElementById('genreCards');
 const librarySections = document.getElementById('librarySections');
-const deleteGenreSelect = document.getElementById('deleteGenreSelect');
 let genres = [];
 const data = {};
 
@@ -168,11 +167,7 @@ async function loadGenreList(){
     const remote = await fetchJson('assets/audio/genres.json');
     if(Array.isArray(remote) && remote.length) base = remote.filter(g=>g && g.key).map(g=>({key:g.key, ko:g.ko||g.key, en:g.en||g.key}));
   } catch(e) {}
-  const custom = readStore(STORAGE.customGenres,[]);
-  const deleted = new Set(readStore(STORAGE.deletedGenres,[]));
-  const merged = [...base];
-  custom.forEach(g=>{ if(g && g.key && !merged.some(x=>x.key===g.key)) merged.push(g); });
-  genres = merged.filter(g=>!deleted.has(g.key));
+  genres = base;
 }
 async function loadGenre(genre){
   try { const tracks = await fetchJson(`assets/audio/${genre}/tracks.json`); return Array.isArray(tracks) ? tracks.filter(Boolean).slice(0,50) : []; }
@@ -205,13 +200,6 @@ function renderLibraries(){
   });
   document.querySelectorAll('.btn-download').forEach(btn=>btn.onclick=()=>downloadWithPassword(btn.dataset.url,btn.dataset.file));
 }
-function renderGenreManager(){
-  if(!deleteGenreSelect) return;
-  deleteGenreSelect.innerHTML = '';
-  genres.forEach(({key,ko,en})=>{
-    const option=document.createElement('option'); option.value=key; option.textContent=`${ko} / ${en} (${key})`; deleteGenreSelect.appendChild(option);
-  });
-}
 function bindAudioSinglePlay(){
   document.querySelectorAll('audio').forEach(audio=>{
     if(audio.dataset.boundSinglePlay === '1') return;
@@ -235,40 +223,10 @@ function updateCountLabels(genre,file,count){
   const id = trackId(genre,file);
   document.querySelectorAll(`[data-count-for="${CSS.escape(id)}"]`).forEach(node=>{ node.textContent=Number(count||0).toLocaleString(); });
 }
-function cleanGenreKey(value){return String(value||'').trim().toLowerCase().replace(/[^a-z0-9_-]/g,'')}
-function bindGenreActions(){
-  const addBtn=document.getElementById('addGenreBtn');
-  const deleteBtn=document.getElementById('deleteGenreBtn');
-  if(addBtn){
-    addBtn.onclick=async()=>{
-      if(!requirePassword('장르 추가 비밀번호를 입력하세요.')){ alert('비밀번호가 맞지 않습니다.'); return; }
-      const key=cleanGenreKey(document.getElementById('newGenreKey').value);
-      const ko=document.getElementById('newGenreKo').value.trim();
-      const en=document.getElementById('newGenreEn').value.trim();
-      if(!key || !ko || !en){ alert('Genre Key, 한글명, English를 모두 입력하세요.'); return; }
-      if(genres.some(g=>g.key===key)){ alert('이미 있는 장르입니다.'); return; }
-      const custom=readStore(STORAGE.customGenres,[]);
-      custom.push({key,ko,en}); writeStore(STORAGE.customGenres,custom);
-      document.getElementById('newGenreKey').value=''; document.getElementById('newGenreKo').value=''; document.getElementById('newGenreEn').value='';
-      await init();
-    };
-  }
-  if(deleteBtn){
-    deleteBtn.onclick=async()=>{
-      if(!deleteGenreSelect.value) return;
-      if(!requirePassword('장르 삭제 비밀번호를 입력하세요.')){ alert('비밀번호가 맞지 않습니다.'); return; }
-      const deleted=readStore(STORAGE.deletedGenres,[]);
-      if(!deleted.includes(deleteGenreSelect.value)) deleted.push(deleteGenreSelect.value);
-      writeStore(STORAGE.deletedGenres,deleted);
-      await init();
-    };
-  }
-}
 async function init(){
   await loadGenreList();
   for(const {key} of genres){ data[key]=await loadGenre(key); }
-  renderGenreCards(); renderGenreManager(); renderLibraries(); bindAudioSinglePlay(); await syncAllPlayCounts();
+  renderGenreCards(); renderLibraries(); bindAudioSinglePlay(); await syncAllPlayCounts();
 }
 updateVisitorCount();
-bindGenreActions();
 init();

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>R.TIO.712 Film Composer | Firebase Realtime Counter</title>
-  <meta name="description" content="R.TIO.712 Film Composer Portfolio - Firebase 실시간 방문자 수와 음원별 재생 수가 연결된 업그레이드 버전." />
+  <title>R.TIO.712 Film Composer | Fixed 10 Genre Portfolio</title>
+  <meta name="description" content="R.TIO.712 Film Composer Portfolio - 10개 고정 장르 카테고리와 Firebase 실시간 방문자·재생 카운터가 연결된 버전." />
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,7 +17,6 @@
       </a>
       <nav class="nav">
         <a href="#genres">Genres</a>
-        <a href="#genreManager">Genre Edit</a>
         <a href="#library">Library</a>
         <a href="https://www.youtube.com/@RTIO712" target="_blank" rel="noopener">YouTube</a>
         <a href="#contact">Contact</a>
@@ -62,35 +61,12 @@
         <div class="section-head">
           <p class="eyebrow">GENRE CATEGORY</p>
           <h2>장르별 최신 업로드 음악</h2>
-          <p>GitHub 저장소의 <code>assets/audio/장르폴더</code>에 MP3 파일과 <code>tracks.json</code>을 올리면 이곳에 자동으로 표시됩니다.</p>
+          <p>10개 고정 장르 카테고리입니다. GitHub 저장소의 <code>assets/audio/장르폴더</code>에 MP3 파일과 <code>tracks.json</code>을 올리면 이곳에 자동으로 표시됩니다.</p>
         </div>
         <div id="genreCards" class="genre-cards"></div>
       </div>
     </section>
 
-    <section id="genreManager" class="section section-line">
-      <div class="wrap">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">GENRE MANAGEMENT</p>
-            <h2>장르 추가 / 삭제 공간</h2>
-            <p>장르를 추가하면 해당 장르 폴더의 <code>tracks.json</code>을 읽어옵니다. 모든 방문자에게 보이게 하려면 GitHub의 <code>assets/audio/genres.json</code>도 함께 수정하세요.</p>
-          </div>
-          <div class="manual-card">
-            <strong>장르 폴더 예시</strong>
-            <p><code>assets/audio/fantasy/tracks.json</code><br>새 장르 key가 <code>fantasy</code>라면 같은 이름의 폴더를 만들면 됩니다.</p>
-          </div>
-        </div>
-        <div class="genre-admin-card">
-          <div class="admin-field"><label>Genre Key</label><input id="newGenreKey" type="text" placeholder="예: fantasy" /></div>
-          <div class="admin-field"><label>한글명</label><input id="newGenreKo" type="text" placeholder="예: 판타지" /></div>
-          <div class="admin-field"><label>English</label><input id="newGenreEn" type="text" placeholder="예: Fantasy" /></div>
-          <button id="addGenreBtn" class="admin-btn dark" type="button">장르 추가</button>
-          <div class="admin-field"><label>삭제할 장르</label><select id="deleteGenreSelect"></select></div>
-          <button id="deleteGenreBtn" class="admin-btn light" type="button">장르 삭제</button>
-        </div>
-      </div>
-    </section>
 
     <section id="library" class="section section-line">
       <div class="wrap">

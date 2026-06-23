@@ -1,10 +1,52 @@
 [
-  { "key": "drama", "ko": "드라마", "en": "Drama" },
-  { "key": "thriller", "ko": "스릴러", "en": "Thriller" },
-  { "key": "horror", "ko": "공포", "en": "Horror" },
-  { "key": "action", "ko": "액션", "en": "Action" },
-  { "key": "romance", "ko": "로맨스", "en": "Romance" },
-  { "key": "melo", "ko": "멜로", "en": "Melo" },
-  { "key": "experimental", "ko": "실험적인", "en": "Experimental" },
-  { "key": "trailer", "ko": "예고편", "en": "Trailer" }
+  {
+    "key": "drama-romance",
+    "ko": "드라마/로맨스",
+    "en": "Drama / Romance"
+  },
+  {
+    "key": "horror-suspense-thriller",
+    "ko": "공포/서스펜스/스릴러",
+    "en": "Horror / Suspense / Thriller"
+  },
+  {
+    "key": "action-crime-noir",
+    "ko": "액션/범죄/느와르",
+    "en": "Action / Crime / Noir"
+  },
+  {
+    "key": "adventure",
+    "ko": "어드벤처",
+    "en": "Adventure"
+  },
+  {
+    "key": "sf-fantasy",
+    "ko": "SF 공상과학/판타지",
+    "en": "Sci-Fi / Fantasy"
+  },
+  {
+    "key": "comedy",
+    "ko": "코미디",
+    "en": "Comedy"
+  },
+  {
+    "key": "musical",
+    "ko": "뮤지컬",
+    "en": "Musical"
+  },
+  {
+    "key": "documentary",
+    "ko": "다큐멘터리",
+    "en": "Documentary"
+  },
+  {
+    "key": "animation",
+    "ko": "애니메이션",
+    "en": "Animation"
+  },
+  {
+    "key": "vocal-all",
+    "ko": "보컬 / 전체음악",
+    "en": "Vocal / All Music"
+  }
 ]
