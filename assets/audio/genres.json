@@ -1,0 +1,10 @@
+[
+  { "key": "drama", "ko": "드라마", "en": "Drama" },
+  { "key": "thriller", "ko": "스릴러", "en": "Thriller" },
+  { "key": "horror", "ko": "공포", "en": "Horror" },
+  { "key": "action", "ko": "액션", "en": "Action" },
+  { "key": "romance", "ko": "로맨스", "en": "Romance" },
+  { "key": "melo", "ko": "멜로", "en": "Melo" },
+  { "key": "experimental", "ko": "실험적인", "en": "Experimental" },
+  { "key": "trailer", "ko": "예고편", "en": "Trailer" }
+]
